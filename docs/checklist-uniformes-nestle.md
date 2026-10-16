@@ -41,7 +41,7 @@
 | # | Ticket | Hecho |
 |---|--------|-------|
 | 1 | Migraciones base (esquema completo) | [x] |
-| 2 | Catálogo de prendas, colores y tallas | [ ] |
+| 2 | Catálogo de prendas, colores y tallas | [x] |
 | 3 | Datos de ejemplo (seed) | [ ] |
 | 4 | Auth SAP + PIN: primer acceso, hash | [ ] |
 | 5 | Bloqueo a 3 intentos, restablecer y desbloquear | [ ] |
@@ -121,9 +121,9 @@ Crear el proyecto en Supabase y las migraciones SQL versionadas que definen el e
 Migración que carga las 100 combinaciones válidas en `existencias` con `cantidad = 0`, y función de validación de combinaciones.
 
 **Criterios de aceptación**
-- [ ] 100 filas insertadas: escafandra × 6 colores (6), pantalón × 6 × 7 (42), playera × 6 × 7 (42), botas × 10 tallas (10).
-- [ ] Función `es_combinacion_valida(tipo, color, talla) RETURNS bool` que rechaza: talla distinta de `'unica'` en escafandra, color no nulo en botas, talla fuera de 22–31 en botas, talla inválida en pantalón/playera.
-- [ ] Tallas de botas guardadas como texto (`'22'`…`'31'`).
+- [x] 100 filas insertadas: escafandra × 6 colores (6), pantalón × 6 × 7 (42), playera × 6 × 7 (42), botas × 10 tallas (10).
+- [x] Función `es_combinacion_valida(tipo, color, talla) RETURNS bool` que rechaza: talla distinta de `'unica'` en escafandra, color no nulo en botas, talla fuera de 22–31 en botas, talla inválida en pantalón/playera.
+- [x] Tallas de botas guardadas como texto (`'22'`…`'31'`).
 
 **Dependencias:** Ticket 1.
 
