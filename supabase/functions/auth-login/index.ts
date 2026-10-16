@@ -47,11 +47,11 @@ Deno.serve(async (req) => {
       p_pin: pin ? String(pin).trim() : null,
     });
 
-    if (error) {
-      const errorMessage = error.message || "";
+    if (error || !data || data.success === false) {
+      const errCode = data?.error || error?.message || "";
 
-      // Si la cuenta está bloqueada, dar mensaje informativo sin revelar más detalles
-      if (errorMessage.includes("CUENTA_BLOQUEADA")) {
+      // Si la cuenta está bloqueada, responder 403 con mensaje claro
+      if (errCode === "CUENTA_BLOQUEADA" || errCode.includes("CUENTA_BLOQUEADA")) {
         return new Response(
           JSON.stringify({
             error: "Tu cuenta está bloqueada tras 3 intentos fallidos. Contacta a RH o al administrador.",

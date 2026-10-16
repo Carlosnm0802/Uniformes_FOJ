@@ -44,7 +44,7 @@
 | 2 | Catálogo de prendas, colores y tallas | [x] |
 | 3 | Datos de ejemplo (seed) | [x] |
 | 4 | Auth SAP + PIN: primer acceso, hash | [x] |
-| 5 | Bloqueo a 3 intentos, restablecer y desbloquear | [ ] |
+| 5 | Bloqueo a 3 intentos, restablecer y desbloquear | [x] |
 | 6 | Roles y RLS (reglas de acceso) | [ ] |
 | 7 | Módulo único de acceso a datos en el front | [ ] |
 | 8 | Función BD: crear petición | [ ] |
@@ -168,9 +168,9 @@ Autenticación propia: función `verificar_pin()`, función `crear_pin()` y Supa
 Funciones de administración de acceso para administrador/RH.
 
 **Criterios de aceptación**
-- [ ] `restablecer_pin(p_admin_id, p_sap_objetivo)`: verifica rol admin/RH del invocante → pone `pin_hash = null`, `pin_pendiente = true`, `intentos_fallidos = 0`, `bloqueado = false` → registra en bitácora.
-- [ ] `desbloquear_cuenta(p_admin_id, p_sap_objetivo)`: verifica rol → pone `intentos_fallidos = 0`, `bloqueado = false` (no toca el PIN) → registra en bitácora.
-- [ ] Ambas lanzan error si el invocante no es admin/RH.
+- [x] `restablecer_pin(p_admin_id, p_sap_objetivo)`: verifica rol admin/RH del invocante → pone `pin_hash = null`, `pin_pendiente = true`, `intentos_fallidos = 0`, `bloqueado = false` → registra en bitácora.
+- [x] `desbloquear_cuenta(p_admin_id, p_sap_objetivo)`: verifica rol → pone `intentos_fallidos = 0`, `bloqueado = false` (no toca el PIN) → registra en bitácora.
+- [x] Ambas lanzan error si el invocante no es admin/RH.
 
 **Dependencias:** Tickets 1 y 4.
 
