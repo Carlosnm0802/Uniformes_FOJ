@@ -43,7 +43,7 @@
 | 1 | Migraciones base (esquema completo) | [x] |
 | 2 | Catálogo de prendas, colores y tallas | [x] |
 | 3 | Datos de ejemplo (seed) | [x] |
-| 4 | Auth SAP + PIN: primer acceso, hash | [ ] |
+| 4 | Auth SAP + PIN: primer acceso, hash | [x] |
 | 5 | Bloqueo a 3 intentos, restablecer y desbloquear | [ ] |
 | 6 | Roles y RLS (reglas de acceso) | [ ] |
 | 7 | Módulo único de acceso a datos en el front | [ ] |
@@ -152,11 +152,11 @@ Archivo `supabase/seed.sql` con usuarios, peticiones en todos los estados y stoc
 Autenticación propia: función `verificar_pin()`, función `crear_pin()` y Supabase Edge Function `auth-login` que genera JWT.
 
 **Criterios de aceptación**
-- [ ] `verificar_pin(p_sap, p_pin) RETURNS uuid`: verifica bloqueo → compara hash con `crypt()` → resetea intentos si correcto → incrementa y bloquea si incorrecto.
-- [ ] `crear_pin(p_sap, p_pin_nuevo)`: solo si `pin_pendiente = true`, valida 4 dígitos numéricos, guarda `crypt(pin, gen_salt('bf'))`, pone `pin_pendiente = false`.
-- [ ] Edge Function `supabase/functions/auth-login/index.ts`: recibe `{ sap, pin }`, llama a `verificar_pin` via RPC, retorna JWT firmado con `{ sub, rol, sap, exp }` o 401 genérico.
-- [ ] JWT firmado con secreto en variable de entorno `JWT_SECRET` (no hardcodeado).
-- [ ] Extensión `pgcrypto` habilitada en migración.
+- [x] `verificar_pin(p_sap, p_pin) RETURNS uuid`: verifica bloqueo → compara hash con `crypt()` → resetea intentos si correcto → incrementa y bloquea si incorrecto.
+- [x] `crear_pin(p_sap, p_pin_nuevo)`: solo si `pin_pendiente = true`, valida 4 dígitos numéricos, guarda `crypt(pin, gen_salt('bf'))`, pone `pin_pendiente = false`.
+- [x] Edge Function `supabase/functions/auth-login/index.ts`: recibe `{ sap, pin }`, llama a `verificar_pin` via RPC, retorna JWT firmado con `{ sub, rol, sap, exp }` o 401 genérico.
+- [x] JWT firmado con secreto en variable de entorno `JWT_SECRET` (no hardcodeado).
+- [x] Extensión `pgcrypto` habilitada en migración.
 
 **Dependencias:** Ticket 1.
 
