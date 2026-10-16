@@ -45,7 +45,7 @@
 | 3 | Datos de ejemplo (seed) | [x] |
 | 4 | Auth SAP + PIN: primer acceso, hash | [x] |
 | 5 | Bloqueo a 3 intentos, restablecer y desbloquear | [x] |
-| 6 | Roles y RLS (reglas de acceso) | [ ] |
+| 6 | Roles y RLS (reglas de acceso) | [x] |
 | 7 | Módulo único de acceso a datos en el front | [ ] |
 | 8 | Función BD: crear petición | [ ] |
 | 9 | Función BD: transiciones de estado | [ ] |
@@ -182,12 +182,12 @@ Funciones de administración de acceso para administrador/RH.
 Habilitar Row Level Security en todas las tablas con políticas por rol. El JWT del ticket 4 es el mecanismo de identificación.
 
 **Criterios de aceptación**
-- [ ] RLS habilitado en: `usuarios`, `peticiones`, `lineas_peticion`, `existencias`, `movimientos_stock`, `acciones_bitacora`.
-- [ ] Colaborador: SELECT en `peticiones` solo donde `usuario_id = uid_from_jwt()`. SELECT en `lineas_peticion` solo de sus peticiones. **Sin acceso** a `existencias`.
-- [ ] Admin/RH: acceso total a todas las tablas.
-- [ ] Solo funciones `SECURITY DEFINER` escriben en `movimientos_stock` y `acciones_bitacora`.
-- [ ] Función auxiliar `uid_from_jwt()` que lee `current_setting('request.jwt.claims', true)`.
-- [ ] Migraciones de RLS en archivo separado `..._rls.sql`.
+- [x] RLS habilitado en: `usuarios`, `peticiones`, `lineas_peticion`, `existencias`, `movimientos_stock`, `acciones_bitacora`.
+- [x] Colaborador: SELECT en `peticiones` solo donde `usuario_id = uid_from_jwt()`. SELECT en `lineas_peticion` solo de sus peticiones. **Sin acceso** a `existencias`.
+- [x] Admin/RH: acceso total a todas las tablas.
+- [x] Solo funciones `SECURITY DEFINER` escriben en `movimientos_stock` y `acciones_bitacora`.
+- [x] Función auxiliar `uid_from_jwt()` que lee `current_setting('request.jwt.claims', true)`.
+- [x] Migraciones de RLS en archivo separado `..._rls.sql`.
 
 **Dependencias:** Tickets 1, 3 y 4.
 
