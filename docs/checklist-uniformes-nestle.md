@@ -42,7 +42,7 @@
 |---|--------|-------|
 | 1 | Migraciones base (esquema completo) | [x] |
 | 2 | Catálogo de prendas, colores y tallas | [x] |
-| 3 | Datos de ejemplo (seed) | [ ] |
+| 3 | Datos de ejemplo (seed) | [x] |
 | 4 | Auth SAP + PIN: primer acceso, hash | [ ] |
 | 5 | Bloqueo a 3 intentos, restablecer y desbloquear | [ ] |
 | 6 | Roles y RLS (reglas de acceso) | [ ] |
@@ -135,12 +135,12 @@ Migración que carga las 100 combinaciones válidas en `existencias` con `cantid
 Archivo `supabase/seed.sql` con usuarios, peticiones en todos los estados y stock de ejemplo. Sin datos reales.
 
 **Criterios de aceptación**
-- [ ] Al menos 3 colaboradores, 1 administrador, 1 RH (SAP y nombres ficticios).
-- [ ] Peticiones en cada estado: `pendiente`, `aprobada`, `rechazada`, `en_proceso`, `entregada` (con y sin devolución).
-- [ ] Stock > 0 en al menos 10 combinaciones.
-- [ ] Ejecutable múltiples veces sin error (`ON CONFLICT DO NOTHING`).
-- [ ] PINs hasheados con la misma función del ticket 4; SAP y PINs de ejemplo documentados en comentario al inicio del archivo.
-- [ ] **Ningún SAP ni nombre real.**
+- [x] Al menos 3 colaboradores, 1 administrador, 1 RH (SAP y nombres ficticios).
+- [x] Peticiones en cada estado: `pendiente`, `aprobada`, `rechazada`, `en_proceso`, `entregada` (con y sin devolución).
+- [x] Stock > 0 en al menos 10 combinaciones.
+- [x] Ejecutable múltiples veces sin error (`ON CONFLICT DO NOTHING`).
+- [x] PINs hasheados con la misma función del ticket 4; SAP y PINs de ejemplo documentados en comentario al inicio del archivo.
+- [x] **Ningún SAP ni nombre real.**
 
 **Dependencias:** Tickets 1 y 2.
 
