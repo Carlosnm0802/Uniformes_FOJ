@@ -46,7 +46,7 @@
 | 4 | Auth SAP + PIN: primer acceso, hash | [x] |
 | 5 | Bloqueo a 3 intentos, restablecer y desbloquear | [x] |
 | 6 | Roles y RLS (reglas de acceso) | [x] |
-| 7 | Módulo único de acceso a datos en el front | [ ] |
+| 7 | Módulo único de acceso a datos en el front | [x] |
 | 8 | Función BD: crear petición | [ ] |
 | 9 | Función BD: transiciones de estado | [ ] |
 | 10 | Función BD: marcar Entregada (stock transaccional) | [ ] |
@@ -199,12 +199,12 @@ Habilitar Row Level Security en todas las tablas con políticas por rol. El JWT 
 Módulo `src/data/api.js`: el único punto del front que habla con Supabase. Ninguna pantalla importa el cliente directamente.
 
 **Criterios de aceptación**
-- [ ] `src/data/client.js`: instancia única del cliente Supabase.
-- [ ] `src/data/session.js`: gestiona JWT en `sessionStorage` (guardar, leer, borrar, verificar).
-- [ ] `src/data/api.js` exporta: `login`, `crearPin`, `obtenerPeticionesColaborador`, `obtenerTodasLasPeticiones`, `obtenerDetallePeticion`, `crearPeticion`, `cambiarEstado`, `marcarEntregada`, `confirmarRecepcion`, `obtenerInventario`, `registrarEntrada`, `obtenerBitacora`.
-- [ ] No existe `import { supabase }` fuera de `src/data/`.
-- [ ] Errores en español; las pantallas muestran solo `error.message`.
-- [ ] URL y clave anónima en `.env` (no en el repo); variables documentadas en `README.md`.
+- [x] `src/data/client.js`: instancia única del cliente Supabase.
+- [x] `src/data/session.js`: gestiona JWT en `sessionStorage` (guardar, leer, borrar, verificar).
+- [x] `src/data/api.js` exporta: `login`, `crearPin`, `obtenerPeticionesColaborador`, `obtenerTodasLasPeticiones`, `obtenerDetallePeticion`, `crearPeticion`, `cambiarEstado`, `marcarEntregada`, `confirmarRecepcion`, `obtenerInventario`, `registrarEntrada`, `obtenerBitacora`.
+- [x] No existe `import { supabase }` fuera de `src/data/`.
+- [x] Errores en español; las pantallas muestran solo `error.message`.
+- [x] URL y clave anónima en `.env` (no en el repo); variables documentadas en `README.md`.
 
 **Dependencias:** Tickets 1, 4 y 6.
 

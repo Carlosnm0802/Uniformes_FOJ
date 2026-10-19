@@ -1,0 +1,13 @@
+# Variables de entorno y secretos
+.env
+.env.local
+.env.*.local
+src/data/env.js
+
+# Supabase local
+supabase/.branches
+supabase/.temp
+
+# IDE y sistema
+.DS_Store
+Thumbs.db
