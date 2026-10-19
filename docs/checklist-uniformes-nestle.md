@@ -49,7 +49,7 @@
 | 7 | Módulo único de acceso a datos en el front | [x] |
 | 8 | Función BD: crear petición | [x] |
 | 9 | Función BD: transiciones de estado | [x] |
-| 10 | Función BD: marcar Entregada (stock transaccional) | [ ] |
+| 10 | Función BD: marcar Entregada (stock transaccional) | [x] |
 | 11 | Función BD: confirmación de recepción | [ ] |
 | 12 | Pruebas mínimas: máquina de estados y stock `[recorte 3]` | [ ] |
 | 13 | UI colaborador: acceso y cerrar sesión | [ ] |
@@ -253,12 +253,12 @@ Función `cambiar_estado(p_admin_id, p_peticion_id, p_nuevo_estado, p_extra json
 Función `marcar_entregada(p_admin_id, p_peticion_id, p_devoluciones jsonb, p_observaciones text)`. Si no hay stock, lanza error y revierte todo.
 
 **Criterios de aceptación**
-- [ ] Verifica que sea admin/RH y que la petición esté en `en_proceso`.
-- [ ] Para cada línea: `SELECT … FOR UPDATE` en `existencias`; si `cantidad < 1` → lanza error `'Stock insuficiente para [tipo] [color] [talla]'` y revierte.
-- [ ] Descuenta 1 unidad por línea e inserta en `movimientos_stock`.
-- [ ] Marca `devuelta = true` en las líneas de `p_devoluciones`.
-- [ ] Si `p_devoluciones` no cubre todas las líneas → `sin_devolucion = true` en la petición.
-- [ ] Pone estado en `entregada`. Registra en bitácora. Todo en una sola transacción. `SECURITY DEFINER`.
+- [x] Verifica que sea admin/RH y que la petición esté en `en_proceso`.
+- [x] Para cada línea: `SELECT … FOR UPDATE` en `existencias`; si `cantidad < 1` → lanza error `'Stock insuficiente para [tipo] [color] [talla]'` y revierte.
+- [x] Descuenta 1 unidad por línea e inserta en `movimientos_stock`.
+- [x] Marca `devuelta = true` en las líneas de `p_devoluciones`.
+- [x] Si `p_devoluciones` no cubre todas las líneas → `sin_devolucion = true` en la petición.
+- [x] Pone estado en `entregada`. Registra en bitácora. Todo en una sola transacción. `SECURITY DEFINER`.
 
 **[POR DEFINIR]:** Estado de la prenda devuelta (pendiente 5 del brief). Por ahora: solo booleano por línea.
 
