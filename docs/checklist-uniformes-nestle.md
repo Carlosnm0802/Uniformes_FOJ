@@ -50,7 +50,7 @@
 | 8 | Función BD: crear petición | [x] |
 | 9 | Función BD: transiciones de estado | [x] |
 | 10 | Función BD: marcar Entregada (stock transaccional) | [x] |
-| 11 | Función BD: confirmación de recepción | [ ] |
+| 11 | Función BD: confirmación de recepción | [x] |
 | 12 | Pruebas mínimas: máquina de estados y stock `[recorte 3]` | [ ] |
 | 13 | UI colaborador: acceso y cerrar sesión | [ ] |
 | 14 | UI colaborador: nueva petición | [ ] |
@@ -190,6 +190,7 @@ Habilitar Row Level Security en todas las tablas con políticas por rol. El JWT 
 - [x] Migraciones de RLS en archivo separado `..._rls.sql`.
 
 
+
 **Dependencias:** Tickets 1, 3 y 4.
 
 ---
@@ -272,10 +273,10 @@ Función `marcar_entregada(p_admin_id, p_peticion_id, p_devoluciones jsonb, p_ob
 Función `confirmar_recepcion(p_usuario_id, p_peticion_id)` que marca la recepción dentro del estado `entregada`.
 
 **Criterios de aceptación**
-- [ ] Verifica que el usuario sea el dueño de la petición y que esté en `entregada`.
-- [ ] Pone `recepcion_confirmada = true`.
-- [ ] Si ya estaba confirmada → error `'Recepción ya confirmada'`.
-- [ ] Registra en bitácora. `SECURITY DEFINER`.
+- [x] Verifica que el usuario sea el dueño de la petición y que esté en `entregada`.
+- [x] Pone `recepcion_confirmada = true`.
+- [x] Si ya estaba confirmada → error `'Recepción ya confirmada'`.
+- [x] Registra en bitácora. `SECURITY DEFINER`.
 
 **[POR DEFINIR]:** Qué pasa si el colaborador dice que no recibió todo (pendiente 7 del brief).
 
