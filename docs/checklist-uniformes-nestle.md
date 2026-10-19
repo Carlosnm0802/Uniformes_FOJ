@@ -48,7 +48,7 @@
 | 6 | Roles y RLS (reglas de acceso) | [x] |
 | 7 | Módulo único de acceso a datos en el front | [x] |
 | 8 | Función BD: crear petición | [x] |
-| 9 | Función BD: transiciones de estado | [ ] |
+| 9 | Función BD: transiciones de estado | [x] |
 | 10 | Función BD: marcar Entregada (stock transaccional) | [ ] |
 | 11 | Función BD: confirmación de recepción | [ ] |
 | 12 | Pruebas mínimas: máquina de estados y stock `[recorte 3]` | [ ] |
@@ -189,6 +189,7 @@ Habilitar Row Level Security en todas las tablas con políticas por rol. El JWT 
 - [x] Función auxiliar `uid_from_jwt()` que lee `current_setting('request.jwt.claims', true)`.
 - [x] Migraciones de RLS en archivo separado `..._rls.sql`.
 
+
 **Dependencias:** Tickets 1, 3 y 4.
 
 ---
@@ -233,12 +234,12 @@ Función `crear_peticion(p_usuario_id, p_motivo, p_ventana_inicio, p_ventana_fin
 Función `cambiar_estado(p_admin_id, p_peticion_id, p_nuevo_estado, p_extra jsonb)` para transiciones `pendiente → aprobada/rechazada → en_proceso`.
 
 **Criterios de aceptación**
-- [ ] `pendiente → aprobada`: solo admin/RH; fija `ventana_confirmada` desde `p_extra` (obligatoria).
-- [ ] `pendiente → rechazada`: solo admin/RH; requiere `motivo_rechazo` en `p_extra` (no vacío).
-- [ ] `aprobada → en_proceso`: solo admin/RH.
-- [ ] Cualquier otra transición lanza error `'Transición no permitida: X → Y'`.
-- [ ] Registra en bitácora con usuario, rol y detalle.
-- [ ] Actualiza `actualizada_en`. `SECURITY DEFINER`.
+- [x] `pendiente → aprobada`: solo admin/RH; fija `ventana_confirmada` desde `p_extra` (obligatoria).
+- [x] `pendiente → rechazada`: solo admin/RH; requiere `motivo_rechazo` en `p_extra` (no vacío).
+- [x] `aprobada → en_proceso`: solo admin/RH.
+- [x] Cualquier otra transición lanza error `'Transición no permitida: X → Y'`.
+- [x] Registra en bitácora con usuario, rol y detalle.
+- [x] Actualiza `actualizada_en`. `SECURITY DEFINER`.
 
 > La transición `en_proceso → entregada` va en el ticket 10 (tiene lógica de stock).
 
