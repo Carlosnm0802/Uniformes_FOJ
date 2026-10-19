@@ -1,0 +1,17 @@
+{
+  "name": "uniformes-foj",
+  "version": "1.0.0",
+  "description": "Sistema de gestión y cambio de uniformes Nestlé",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  },
+  "keywords": [
+    "nestle",
+    "uniformes",
+    "supabase",
+    "pwa"
+  ],
+  "author": "Carlos Nares",
+  "license": "ISC"
+}

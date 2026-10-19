@@ -51,7 +51,7 @@
 | 9 | Función BD: transiciones de estado | [x] |
 | 10 | Función BD: marcar Entregada (stock transaccional) | [x] |
 | 11 | Función BD: confirmación de recepción | [x] |
-| 12 | Pruebas mínimas: máquina de estados y stock `[recorte 3]` | [ ] |
+| 12 | Pruebas mínimas: máquina de estados y stock `[recorte 3]` | [x] |
 | 13 | UI colaborador: acceso y cerrar sesión | [ ] |
 | 14 | UI colaborador: nueva petición | [ ] |
 | 15 | UI colaborador: mis peticiones y detalle | [ ] |
@@ -290,9 +290,9 @@ Función `confirmar_recepcion(p_usuario_id, p_peticion_id)` que marca la recepci
 Pruebas automáticas sobre la máquina de estados y el descuento de stock. Son el contrato para un futuro refactor.
 
 **Criterios de aceptación**
-- [ ] Pruebas de máquina de estados: transiciones válidas (`pendiente → aprobada`, `aprobada → en_proceso`, `en_proceso → entregada`), transición inválida (`pendiente → entregada`) lanza error, rechazar sin motivo lanza error.
-- [ ] Pruebas de stock: stock > 0 descuenta correctamente; stock = 0 lanza error y no modifica nada.
-- [ ] Corren con un comando documentado (ej: `npm test`).
+- [x] Pruebas de máquina de estados: transiciones válidas (`pendiente → aprobada`, `aprobada → en_proceso`, `en_proceso → entregada`), transición inválida (`pendiente → entregada`) lanza error, rechazar sin motivo lanza error.
+- [x] Pruebas de stock: stock > 0 descuenta correctamente; stock = 0 lanza error y no modifica nada.
+- [x] Corren con un comando documentado (ej: `npm test`).
 
 **Dependencias:** Tickets 8, 9, 10 y 11.
 

@@ -46,3 +46,19 @@ SUPABASE_ANON_KEY=tu-clave-anonima-de-supabase
 Para ejecutar directamente en el navegador con módulos ES nativos:
 1. Puedes inyectar `window.__ENV__` en el `index.html`, o
 2. Copiar `src/data/env.example.js` a `src/data/env.js` (ignorado en `.gitignore`).
+
+---
+
+## Pruebas Automatizadas
+
+El proyecto incluye pruebas automatizadas mínimas para verificar las reglas críticas del dominio (la máquina de estados de peticiones y el control transaccional de stock).
+
+Se ejecutan con el test runner nativo de Node.js (sin dependencias externas):
+
+```bash
+npm test
+```
+
+Estas pruebas verifican:
+1. **Máquina de estados:** Transiciones válidas (`pendiente → aprobada → en_proceso → entregada`), bloqueo de saltos no permitidos y exigencia de motivo al rechazar.
+2. **Stock transaccional:** Descuento de stock en `existencias` y registro de salidas en `movimientos_stock` con existencias disponibles; y reversión atómica (bloqueo sin cambios de estado ni inventario) cuando el stock es 0.
