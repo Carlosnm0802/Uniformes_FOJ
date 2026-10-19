@@ -47,7 +47,7 @@
 | 5 | Bloqueo a 3 intentos, restablecer y desbloquear | [x] |
 | 6 | Roles y RLS (reglas de acceso) | [x] |
 | 7 | Módulo único de acceso a datos en el front | [x] |
-| 8 | Función BD: crear petición | [ ] |
+| 8 | Función BD: crear petición | [x] |
 | 9 | Función BD: transiciones de estado | [ ] |
 | 10 | Función BD: marcar Entregada (stock transaccional) | [ ] |
 | 11 | Función BD: confirmación de recepción | [ ] |
@@ -216,12 +216,12 @@ Módulo `src/data/api.js`: el único punto del front que habla con Supabase. Nin
 Función `crear_peticion(p_usuario_id, p_motivo, p_ventana_inicio, p_ventana_fin, p_lineas jsonb) RETURNS uuid` atómica con validaciones de dominio.
 
 **Criterios de aceptación**
-- [ ] Verifica que el usuario sea colaborador.
-- [ ] Valida cada línea con `es_combinacion_valida()`.
-- [ ] Bloquea motivo `'talla'` si alguna línea es `escafandra` (error descriptivo).
-- [ ] Inserta petición en `pendiente` + todas las líneas en una sola transacción.
-- [ ] Registra acción en bitácora con tipo `'crear_peticion'`.
-- [ ] `SECURITY DEFINER`.
+- [x] Verifica que el usuario sea colaborador.
+- [x] Valida cada línea con `es_combinacion_valida()`.
+- [x] Bloquea motivo `'talla'` si alguna línea es `escafandra` (error descriptivo).
+- [x] Inserta petición en `pendiente` + todas las líneas en una sola transacción.
+- [x] Registra acción en bitácora con tipo `'crear_peticion'`.
+- [x] `SECURITY DEFINER`.
 
 **Dependencias:** Tickets 1, 2 y 6.
 

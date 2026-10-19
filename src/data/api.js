@@ -46,8 +46,9 @@ function formatearError(err) {
     return new Error('Tu sesión ha expirado. Por favor ingresa nuevamente con tu SAP y PIN.');
   }
 
-  // Devolver mensaje original si ya viene en español o mensaje general
-  return new Error(rawMsg || 'Ocurrió un error al procesar la solicitud.');
+  // Limpiar prefijos de códigos de error de BD (ej: MOTIVO_INVALIDO: texto -> texto)
+  const mensajeLimpio = rawMsg.replace(/^[A-Z_]+:\s*/, '').trim();
+  return new Error(mensajeLimpio || 'Ocurrió un error al procesar la solicitud.');
 }
 
 // ==========================================
