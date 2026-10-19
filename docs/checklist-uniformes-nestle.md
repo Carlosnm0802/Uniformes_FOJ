@@ -52,7 +52,7 @@
 | 10 | Función BD: marcar Entregada (stock transaccional) | [x] |
 | 11 | Función BD: confirmación de recepción | [x] |
 | 12 | Pruebas mínimas: máquina de estados y stock `[recorte 3]` | [x] |
-| 13 | UI colaborador: acceso y cerrar sesión | [ ] |
+| 13 | UI colaborador: acceso y cerrar sesión | [x] |
 | 14 | UI colaborador: nueva petición | [ ] |
 | 15 | UI colaborador: mis peticiones y detalle | [ ] |
 | 16 | UI colaborador: confirmar recepción y "¡Gracias!" | [ ] |
@@ -304,13 +304,13 @@ Pruebas automáticas sobre la máquina de estados y el descuento de stock. Son e
 Pantalla de login (colaborador, admin y RH). Flujo de primer acceso (crear PIN) y mensaje de cuenta bloqueada.
 
 **Criterios de aceptación**
-- [ ] Campos SAP y PIN (`type="password"`, 4 dígitos numéricos).
-- [ ] Login exitoso → guarda sesión → redirige según rol.
-- [ ] `pin_pendiente = true` → pantalla de crear PIN (doble confirmación) → redirige.
-- [ ] Cuenta bloqueada → mensaje `'Tu cuenta está bloqueada. Contacta a RH o al administrador.'`
-- [ ] Sin conexión → aviso visible y formulario bloqueado.
-- [ ] Cerrar sesión borra `sessionStorage` y regresa a login.
-- [ ] Mensaje de error genérico (no revela si el SAP existe).
+- [x] Campos SAP y PIN (`type="password"`, 4 dígitos numéricos).
+- [x] Login exitoso → guarda sesión → redirige según rol.
+- [x] `pin_pendiente = true` → pantalla de crear PIN (doble confirmación) → redirige.
+- [x] Cuenta bloqueada → mensaje `'Tu cuenta está bloqueada. Contacta a RH o al administrador.'`
+- [x] Sin conexión → aviso visible y formulario bloqueado.
+- [x] Cerrar sesión borra `sessionStorage` y regresa a login.
+- [x] Mensaje de error genérico (no revela si el SAP existe).
 
 **Dependencias:** Tickets 4, 5 y 7.
 

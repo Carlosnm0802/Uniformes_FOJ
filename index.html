@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#005a9c" />
+  <meta name="description" content="Sistema de cambio de uniformes y control de inventario en fábrica Nestlé." />
+  <title>Uniformes Nestlé — Sistema de Gestión</title>
+  <link rel="stylesheet" href="src/styles/main.css" />
+</head>
+<body>
+  <!-- Banner visible cuando no hay conexión a internet -->
+  <div id="offline-banner" class="offline-banner" role="alert" aria-live="assertive">
+    Sin conexión a internet. La aplicación requiere conexión para operar.
+  </div>
+
+  <!-- Encabezado de la aplicación -->
+  <div id="header-container"></div>
+
+  <!-- Contenedor principal donde se dibujan las vistas -->
+  <main class="app-main" id="app-container" role="main"></main>
+
+  <!-- Script principal modular de la aplicación -->
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>
