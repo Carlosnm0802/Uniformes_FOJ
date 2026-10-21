@@ -242,7 +242,8 @@ export function initNuevaPeticionView(container, { onCancel, onSuccess } = {}) {
       if (!select) return;
 
       const card = select.closest('[data-linea-id]');
-      const linea = lineas.find((item) => item.id === Number(card.dataset.lineaId));
+      const lineaId = Number(card.dataset.lineaId);
+      const linea = lineas.find((item) => item.id === lineaId);
       if (!linea) return;
 
       const campo = select.dataset.campo;
@@ -250,14 +251,21 @@ export function initNuevaPeticionView(container, { onCancel, onSuccess } = {}) {
       if (campo === 'tipo') {
         linea.tipo = select.value;
         normalizarLinea(linea);
+        mostrarAlerta('form-error', '', 'danger');
+        renderLineas();
+
+        const tipoActualizado = lineasContainer.querySelector(
+          `.linea-card[data-linea-id="${lineaId}"] select[data-campo="tipo"]`
+        );
+        if (tipoActualizado) tipoActualizado.focus();
       } else if (campo === 'color') {
         linea.color = select.value;
+        mostrarAlerta('form-error', '', 'danger');
       } else if (campo === 'talla') {
         linea.talla = select.value;
+        mostrarAlerta('form-error', '', 'danger');
       }
 
-      mostrarAlerta('form-error', '', 'danger');
-      renderLineas();
       actualizarAdvertencia();
     });
 

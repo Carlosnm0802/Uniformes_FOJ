@@ -53,7 +53,7 @@
 | 11 | Función BD: confirmación de recepción | [x] |
 | 12 | Pruebas mínimas: máquina de estados y stock `[recorte 3]` | [x] |
 | 13 | UI colaborador: acceso y cerrar sesión | [x] |
-| 14 | UI colaborador: nueva petición | [ ] |
+| 14 | UI colaborador: nueva petición | [x] |
 | 15 | UI colaborador: mis peticiones y detalle | [ ] |
 | 16 | UI colaborador: confirmar recepción y "¡Gracias!" | [ ] |
 | 17 | UI admin: lista de peticiones, alertas, filtros `[recorte 4]` | [ ] |
@@ -322,10 +322,12 @@ Pantalla de login (colaborador, admin y RH). Flujo de primer acceso (crear PIN) 
 Pantalla para crear petición con líneas múltiples, motivo y ventana propuesta.
 
 **Criterios de aceptación**
-- [ ] Añadir/eliminar líneas; selectores adaptativos (escafandra oculta talla; botas oculta color).
-- [ ] Motivo: selector (suciedad, daño, talla, otro). Si motivo = `talla` + hay línea de escafandra → bloquea envío con advertencia visible.
-- [ ] Ventana: date-time picker amigable en móvil.
-- [ ] Al enviar: llama a `crearPeticion()`; errores de servidor visibles; éxito → redirige a Mis peticiones.
+- [x] Añadir/eliminar líneas; selectores adaptativos (escafandra oculta talla; botas oculta color).
+- [x] Motivo: selector (suciedad, daño, talla, otro). Si motivo = `talla` + hay línea de escafandra → bloquea envío con advertencia visible.
+- [x] Ventana: date-time picker amigable en móvil (nativo `datetime-local`).
+- [x] Al enviar: llama a `crearPeticion()`; errores de servidor visibles; éxito → redirige a Mis peticiones.
+
+> Decisión (21-oct-2026): "redirige a Mis peticiones" se cumple con una pantalla temporal de confirmación; la lista real llega con el ticket 15 y reemplazará el placeholder.
 
 **[POR DEFINIR]:** Color por día de la semana (pendiente 8). Por ahora el colaborador elige libremente.
 
