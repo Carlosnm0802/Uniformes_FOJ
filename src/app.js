@@ -8,6 +8,7 @@ import { initMisPeticionesView } from './ui/misPeticionesView.js';
 import { initDetallePeticionView } from './ui/detallePeticionView.js';
 import { initGraciasView } from './ui/graciasView.js';
 import { initListaAdminView } from './ui/listaAdminView.js';
+import { initDetalleAdminView } from './ui/detalleAdminView.js';
 import { verificarSesion, obtenerUsuario } from './data/session.js';
 
 const appContainer = document.getElementById('app-container');
@@ -62,7 +63,7 @@ function renderHeader() {
 
 /**
  * Renderiza la vista inicial o dashboard según el rol del usuario autenticado.
- * Módulos conectados: colaborador (Tickets 14 a 16) y lista admin (Ticket 17); el detalle de gestión conectará con el Ticket 18.
+ * Colaborador conectado (Tickets 14 a 16); Administrador/RH con lista, detalle de gestión y entrega (Tickets 17 a 19); inventario y bitácora conectarán con los Tickets 20-22.
  */
 function renderDashboard(usuario) {
   renderHeader();
@@ -192,31 +193,21 @@ function navegarAListaAdmin(usuario) {
   renderHeader();
   initListaAdminView(appContainer, {
     onVolver: () => renderDashboard(usuario),
-    onAbrirDetalle: (peticionId) => renderDetalleAdminPlaceholder(peticionId),
+    onAbrirDetalle: (peticionId) => renderDetalleAdmin(peticionId),
   });
 }
 
 /**
- * Acción temporal al abrir el detalle de una petición como Admin/RH.
- * El Ticket 18 la reemplazará por el detalle con controles de gestión.
+ * Detalle de gestión para Administrador y RH: historial de bitácora,
+ * stock disponible, transiciones de estado y registro de entrega
+ * con devolución y observaciones (Tickets 18 y 19).
  */
-function renderDetalleAdminPlaceholder(peticionId) {
+function renderDetalleAdmin(peticionId) {
   renderHeader();
-
-  appContainer.innerHTML = `
-    <div class="dashboard-view" id="detalle-admin-placeholder">
-      <h2 style="margin-bottom: 8px;">Detalle de la petición</h2>
-      <div class="alert alert-warning">
-        El detalle de peticiones para administración llega con el siguiente ticket.
-      </div>
-      <button class="btn btn-primary" id="btn-volver-lista-admin-temp">Volver a la lista</button>
-    </div>
-  `;
-
-  const btnVolver = appContainer.querySelector('#btn-volver-lista-admin-temp');
-  if (btnVolver) {
-    btnVolver.addEventListener('click', () => navegarAListaAdmin(obtenerUsuario()));
-  }
+  initDetalleAdminView(appContainer, {
+    peticionId,
+    onVolver: () => navegarAListaAdmin(obtenerUsuario()),
+  });
 }
 
 /**

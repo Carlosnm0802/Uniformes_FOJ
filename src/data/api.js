@@ -558,12 +558,15 @@ export async function obtenerBitacora(filtros = {}) {
       `)
       .order('registrado_en', { ascending: false });
 
-    if (filtros.tipoAccion) {
-      query = query.eq('tipo_accion', filtros.tipoAccion);
-    }
-    if (filtros.usuarioId) {
-      query = query.eq('usuario_id', filtros.usuarioId);
-    }
+  if (filtros.tipoAccion) {
+    query = query.eq('tipo_accion', filtros.tipoAccion);
+  }
+  if (filtros.usuarioId) {
+    query = query.eq('usuario_id', filtros.usuarioId);
+  }
+  if (filtros.entidadId) {
+    query = query.eq('entidad_id', filtros.entidadId);
+  }
 
     const { data, error } = await query;
 

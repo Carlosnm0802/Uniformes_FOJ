@@ -54,6 +54,35 @@ export function describirLinea(linea) {
   return `${tipo} ${linea.prenda_color ?? ''} ${linea.prenda_talla ?? ''}`.trim();
 }
 
+const ETIQUETAS_ACCION_BITACORA = {
+  crear_peticion: 'Creó la petición',
+  cambiar_estado: 'Cambió el estado',
+  marcar_entregada: 'Marcó la entrega',
+  confirmar_recepcion: 'Confirmó la recepción',
+};
+
+export function aValorDatetimeLocal(valor) {
+  if (!valor) return '';
+
+  const fecha = new Date(valor);
+  if (Number.isNaN(fecha.getTime())) return '';
+
+  const dosDigitos = (numero) => String(numero).padStart(2, '0');
+
+  return [
+    fecha.getFullYear(),
+    dosDigitos(fecha.getMonth() + 1),
+    dosDigitos(fecha.getDate()),
+  ].join('-') + 'T' + [
+    dosDigitos(fecha.getHours()),
+    dosDigitos(fecha.getMinutes()),
+  ].join(':');
+}
+
+export function etiquetaAccionBitacora(tipo) {
+  return ETIQUETAS_ACCION_BITACORA[tipo] ?? tipo;
+}
+
 export function resumenPrendas(lineas = []) {
   const total = lineas.length;
   const nombres = lineas.slice(0, 3).map(describirLinea);

@@ -57,8 +57,8 @@
 | 15 | UI colaborador: mis peticiones y detalle | [x] |
 | 16 | UI colaborador: confirmar recepción y "¡Gracias!" | [x] |
 | 17 | UI admin: lista de peticiones, alertas, filtros `[recorte 4]` | [x] |
-| 18 | UI admin: detalle de petición | [ ] |
-| 19 | UI admin: entrega (devolución + observaciones) | [ ] |
+| 18 | UI admin: detalle de petición | [x] |
+| 19 | UI admin: entrega (devolución + observaciones) | [x] |
 | 20 | UI admin: inventario y registrar entrada | [ ] |
 | 21 | Importación de colaboradores desde Excel `[recorte 5]` | [ ] |
 | 22 | Pantalla de bitácora con filtros `[recorte 1]` | [ ] |
@@ -383,37 +383,41 @@ Vista principal del administrador/RH con lista, filtros, búsqueda y alertas.
 
 ---
 
-### Ticket 18 — UI admin: detalle de petición
+### Ticket 18 — UI admin: detalle de petición ✔ (21-oct-2026)
 
 **Descripción**  
 Pantalla de detalle para admin/RH con historial, disponibilidad de stock y controles de transición.
 
 **Criterios de aceptación**
-- [ ] Datos del colaborador, estado, líneas, motivos, ventanas, observaciones.
-- [ ] Historial desplegable: acciones de bitácora ordenadas por fecha con autor y rol.
-- [ ] Si `pendiente`: botones Aprobar (modal con ventana + stock disponible por línea) y Rechazar (modal con motivo obligatorio).
-- [ ] Si `aprobada`: botón "Pasar a En proceso".
-- [ ] Si `en_proceso`: botón "Marcar como Entregada" (lleva a ticket 19).
-- [ ] Alerta visible si `sin_devolucion = true`.
+- [x] Datos del colaborador, estado, líneas, motivos, ventanas, observaciones.
+- [x] Historial desplegable: acciones de bitácora ordenadas por fecha con autor y rol (la más reciente primero).
+- [x] Si `pendiente`: botones Aprobar (modal con ventana + stock disponible por línea) y Rechazar (modal con motivo obligatorio).
+- [x] Si `aprobada`: botón "Pasar a En proceso".
+- [x] Si `en_proceso`: botón "Marcar como Entregada" (lleva a ticket 19).
+- [x] Alerta visible si `sin_devolucion = true`.
+
+**Decisión (21-oct-2026):** el historial se consulta por petición con `obtenerBitacora({ entidadId })` del lado del servidor (extensión de `api.js` acordada; servirá igual al Ticket 22). El stock del modal de aprobación es informativo y no bloquea aprobar: el descuento real ocurre al marcar Entregada (función BD del Ticket 10). "Marcar como Entregada" muestra un placeholder visible que el Ticket 19 reemplaza.
 
 **Dependencias:** Tickets 7, 9 y 17.
 
 ---
 
-### Ticket 19 — UI admin: entrega (devolución + observaciones)
+### Ticket 19 — UI admin: entrega (devolución + observaciones) ✔ (21-oct-2026)
 
 **Descripción**  
 Pantalla o modal de entrega desde el detalle cuando la petición está en `en_proceso`.
 
 **Criterios de aceptación**
-- [ ] Casilla "¿Se devolvió?" por cada línea de prenda.
-- [ ] Campo de observaciones (opcional).
-- [ ] Botón "Confirmar entrega" → llama a `marcarEntregada()`.
-- [ ] Error de stock insuficiente → muestra qué prenda falta, sin navegar.
-- [ ] Sin prendas marcadas como devueltas → avisa pero no bloquea.
-- [ ] Éxito → regresa al detalle con estado actualizado.
+- [x] Casilla "¿Se devolvió?" por cada línea de prenda.
+- [x] Campo de observaciones (opcional).
+- [x] Botón "Confirmar entrega" → llama a `marcarEntregada()`.
+- [x] Error de stock insuficiente → muestra qué prenda falta, sin navegar.
+- [x] Sin prendas marcadas como devueltas → avisa pero no bloquea.
+- [x] Éxito → regresa al detalle con estado actualizado.
 
 **[POR DEFINIR]:** Estado de la prenda devuelta (pendiente 5). Por ahora solo checkbox.
+
+**Decisión (21-oct-2026):** aviso de doble clic acordado: el primer "Confirmar entrega" sin casillas marcadas muestra 'No se registrará devolución de ninguna prenda. Pulsa de nuevo para continuar.' y no ejecuta; el segundo clic confirma. Error de stock se muestra dentro del modal (la BD revierte toda la transacción) y el botón queda reutilizable.
 
 **Dependencias:** Tickets 10, 17 y 18.
 

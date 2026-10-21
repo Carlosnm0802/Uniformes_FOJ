@@ -784,3 +784,156 @@ body {
     flex: 1;
   }
 }
+
+/* =============================================
+   Ticket 18: detalle de gestión (Admin/RH)
+   ============================================= */
+
+dialog.dialogo {
+  border: none;
+  border-radius: 10px;
+  padding: 0;
+  width: min(480px, calc(100vw - 24px));
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+}
+
+dialog.dialogo::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.dialogo-contenido {
+  padding: 20px 18px;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.dialogo-titulo {
+  font-size: 1.1rem;
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+
+.dialogo-acciones {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.ventana-doble {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stock-lista {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.stock-lista .campo-fila {
+  margin-bottom: 6px;
+}
+
+.stock-lista .campo-fila:last-child {
+  margin-bottom: 0;
+}
+
+.stock-alcanza {
+  color: #1b5e20;
+  font-weight: 700;
+}
+
+.stock-no-alcanza {
+  color: #9b1c1c;
+  font-weight: 700;
+}
+
+.historial {
+  margin-top: 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.historial summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.bitacora-lista {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bitacora-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-bottom: 1px solid #edf2f7;
+  padding-bottom: 8px;
+  font-size: 0.88rem;
+}
+
+.bitacora-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.bitacora-accion {
+  font-weight: 600;
+}
+
+.bitacora-autor,
+.bitacora-fecha {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+@media (min-width: 640px) {
+  .dialogo-acciones {
+    flex-direction: row-reverse;
+  }
+
+  .dialogo-acciones .btn {
+    flex: 1;
+  }
+
+  .ventana-doble {
+    flex-direction: row;
+  }
+
+  .ventana-doble .form-input {
+    flex: 1;
+  }
+}
+
+/* =============================================
+   Ticket 19: modal de entrega (devolución + observaciones)
+   ============================================= */
+
+.entrega-linea {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.entrega-linea input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
