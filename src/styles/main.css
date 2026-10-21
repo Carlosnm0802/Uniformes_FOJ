@@ -448,3 +448,251 @@ body {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/* =============================================
+   Ticket 15: Mis peticiones y detalle
+   ============================================= */
+
+.view-header-fila {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.btn-compacto {
+  min-height: 40px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  width: auto;
+}
+
+.btn-volver {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 0;
+  margin-bottom: 12px;
+}
+
+.btn-volver:hover {
+  text-decoration: underline;
+}
+
+/* Badges de estado */
+.badge-estado {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  border: 1px solid transparent;
+}
+
+.badge-estado--pendiente {
+  background: #fff8e1;
+  color: #b78103;
+  border-color: #ffe082;
+}
+
+.badge-estado--aprobada {
+  background: #e8f1f8;
+  color: #005a9c;
+  border-color: #bcd7ea;
+}
+
+.badge-estado--rechazada {
+  background: #fde8e8;
+  color: #9b1c1c;
+  border-color: #f8b4b4;
+}
+
+.badge-estado--en_proceso {
+  background: #ede7f6;
+  color: #4527a0;
+  border-color: #d1c4e9;
+}
+
+.badge-estado--entregada {
+  background: #e8f5e9;
+  color: #1b5e20;
+  border-color: #a5d6a7;
+}
+
+.badge-devuelta {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: #ede7f6;
+  color: #4527a0;
+}
+
+/* Filtros chips */
+.filtros-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.chip {
+  background: #f1f3f5;
+  border: 1px solid #dee2e6;
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+
+.chip--activo {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+}
+
+/* Lista de peticiones */
+.lista-peticiones {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.peticion-card {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.peticion-card:hover,
+.peticion-card:focus-visible {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.peticion-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.peticion-fecha {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.peticion-prendas {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.peticion-ventanas .campo-fila {
+  margin-bottom: 4px;
+}
+
+.peticion-alerta {
+  margin-top: 10px;
+}
+
+.cargando {
+  color: var(--text-muted);
+  text-align: center;
+  padding: 16px 0;
+}
+
+.lista-vacia {
+  text-align: center;
+  padding: 24px 12px;
+  color: var(--text-muted);
+}
+
+.lista-vacia .btn {
+  margin-top: 12px;
+}
+
+/* Detalle */
+.detalle-datos-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.detalle-seccion {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+
+.detalle-titulo {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.detalle-lineas {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detalle-linea {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.campo-fila {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.9rem;
+}
+
+.campo-etiqueta {
+  color: var(--text-muted);
+}
+
+.texto-multilinea {
+  white-space: pre-line;
+  font-size: 0.9rem;
+}
+
+.detalle-acciones {
+  margin-top: 16px;
+}
+
+@media (min-width: 640px) {
+  .detalle-acciones {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .detalle-acciones .btn {
+    min-width: 220px;
+  }
+}

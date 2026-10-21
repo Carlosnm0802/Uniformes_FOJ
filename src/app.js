@@ -4,6 +4,8 @@
 
 import { initAuthView, cerrarSesion } from './ui/authView.js';
 import { initNuevaPeticionView } from './ui/nuevaPeticionView.js';
+import { initMisPeticionesView } from './ui/misPeticionesView.js';
+import { initDetallePeticionView } from './ui/detallePeticionView.js';
 import { verificarSesion, obtenerUsuario } from './data/session.js';
 
 const appContainer = document.getElementById('app-container');
@@ -58,7 +60,7 @@ function renderHeader() {
 
 /**
  * Renderiza la vista inicial o dashboard según el rol del usuario autenticado.
- * (Base que conectará con los Tickets 14/15 para Colaborador y 17/18 para Admin/RH).
+ * Módulo del colaborador conectado (Tickets 14 y 15); gestión Admin/RH conectará con los Tickets 17/18.
  */
 function renderDashboard(usuario) {
   renderHeader();
@@ -91,7 +93,8 @@ function renderDashboard(usuario) {
       <div class="dashboard-actions">
         ${
           !esAdminORh
-            ? '<button class="btn btn-primary" id="btn-nueva-peticion">Nueva petición</button>'
+            ? `<button class="btn btn-primary" id="btn-nueva-peticion">Nueva petición</button>
+               <button class="btn btn-outline" id="btn-mis-peticiones">Mis peticiones</button>`
             : ''
         }
         <button class="btn btn-outline" id="btn-dashboard-logout">
@@ -105,6 +108,13 @@ function renderDashboard(usuario) {
   if (btnNuevaPeticion) {
     btnNuevaPeticion.addEventListener('click', () => {
       navegarANuevaPeticion(usuario);
+    });
+  }
+
+  const btnMisPeticiones = appContainer.querySelector('#btn-mis-peticiones');
+  if (btnMisPeticiones) {
+    btnMisPeticiones.addEventListener('click', () => {
+      navegarAMisPeticiones(usuario);
     });
   }
 
@@ -125,34 +135,33 @@ function navegarANuevaPeticion(usuario) {
   renderHeader();
   initNuevaPeticionView(appContainer, {
     onCancel: () => renderDashboard(usuario),
-    onSuccess: () => renderMisPeticionesPlaceholder(usuario),
+    onSuccess: () => navegarAMisPeticiones(usuario),
   });
 }
 
 /**
- * Vista temporal de "Mis peticiones" tras crear una petición.
- * El ticket 15 reemplazará este placeholder por la lista y el detalle reales.
+ * Lista "Mis peticiones" del colaborador con filtros por estado
+ * y navegación al detalle de cada petición (Ticket 15).
  */
-function renderMisPeticionesPlaceholder(usuario) {
+function navegarAMisPeticiones(usuario) {
   renderHeader();
+  initMisPeticionesView(appContainer, {
+    onVolver: () => renderDashboard(usuario),
+    onNuevaPeticion: () => navegarANuevaPeticion(usuario),
+    onAbrirDetalle: (peticionId) => renderDetallePeticion(peticionId),
+  });
+}
 
-  appContainer.innerHTML = `
-    <div class="dashboard-view" id="mis-peticiones-placeholder">
-      <h2 style="margin-bottom: 8px;">Mis peticiones</h2>
-      <div class="alert alert-success">
-        Tu petición se creó correctamente y quedó en estado Pendiente.
-      </div>
-      <p style="color: var(--text-muted); margin-bottom: 24px;">
-        Tu solicitud quedó registrada. Aquí podrás consultar su estado.
-      </p>
-      <button class="btn btn-primary" id="btn-volver-inicio">Volver al inicio</button>
-    </div>
-  `;
-
-  const btnVolver = appContainer.querySelector('#btn-volver-inicio');
-  if (btnVolver) {
-    btnVolver.addEventListener('click', () => renderDashboard(usuario));
-  }
+/**
+ * Detalle de una petición del colaborador, con el botón de
+ * confirmación de recepción como marcador (acción real en el Ticket 16).
+ */
+function renderDetallePeticion(peticionId) {
+  renderHeader();
+  initDetallePeticionView(appContainer, {
+    peticionId,
+    onVolver: () => navegarAMisPeticiones(obtenerUsuario()),
+  });
 }
 
 /**

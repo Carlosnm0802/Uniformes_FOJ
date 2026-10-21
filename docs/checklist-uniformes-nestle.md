@@ -335,16 +335,16 @@ Pantalla para crear petición con líneas múltiples, motivo y ventana propuesta
 
 ---
 
-### Ticket 15 — UI colaborador: mis peticiones y detalle
+### Ticket 15 — UI colaborador: mis peticiones y detalle ✔ (21-oct-2026)
 
 **Descripción**  
 Lista de peticiones del colaborador y pantalla de detalle.
 
 **Criterios de aceptación**
-- [ ] Lista: estado, fecha, resumen de prendas, ventanas, marca de alerta si `sin_devolucion = true`.
-- [ ] Filtros por estado.
-- [ ] Detalle: estado, líneas, motivo, ventanas, motivo de rechazo (si aplica), observaciones (si aplica).
-- [ ] Botón "Confirmar recepción" visible solo si `estado = entregada` y `recepcion_confirmada = false`.
+- [x] Lista: estado, fecha, resumen de prendas, ventanas, marca de alerta si `sin_devolucion = true`.
+- [x] Filtros por estado.
+- [x] Detalle: estado, líneas, motivo, ventanas, motivo de rechazo (si aplica), observaciones (si aplica).
+- [x] Botón "Confirmar recepción" visible solo si `estado = entregada` y `recepcion_confirmada = false`.
 
 **Dependencias:** Tickets 7, 11 y 13.
 
