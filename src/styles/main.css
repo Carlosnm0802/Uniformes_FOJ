@@ -279,3 +279,172 @@ body {
   padding: 32px 24px;
   text-align: center;
 }
+
+.dashboard-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Vista de nueva petición */
+.peticion-view {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 760px;
+  padding: 28px 20px;
+}
+
+.view-header {
+  margin-bottom: 20px;
+}
+
+.view-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 6px;
+}
+
+.view-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0 16px;
+}
+
+.form-group-full {
+  grid-column: 1 / -1;
+}
+
+.seccion-lineas {
+  margin-top: 8px;
+}
+
+.seccion-lineas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.seccion-titulo {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.btn-agregar-linea {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 0;
+}
+
+.btn-agregar-linea:hover {
+  color: var(--primary-hover);
+}
+
+.lineas-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.linea-card {
+  background-color: #fafbfc;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.linea-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.linea-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.btn-eliminar-linea {
+  background: none;
+  border: none;
+  color: var(--danger);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.btn-eliminar-linea:disabled {
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.linea-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.linea-grid .form-group {
+  margin-bottom: 0;
+}
+
+.form-static {
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  background-color: #f7fafc;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+@media (min-width: 640px) {
+  .form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .form-actions {
+    flex-direction: row-reverse;
+  }
+
+  .form-actions .btn {
+    flex: 1;
+  }
+}
+
+@media (min-width: 760px) {
+  .peticion-view {
+    padding: 32px 28px;
+  }
+
+  .linea-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

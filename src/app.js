@@ -3,6 +3,7 @@
 // Controla el enrutamiento básico, sesiones activas, header y redirección por rol.
 
 import { initAuthView, cerrarSesion } from './ui/authView.js';
+import { initNuevaPeticionView } from './ui/nuevaPeticionView.js';
 import { verificarSesion, obtenerUsuario } from './data/session.js';
 
 const appContainer = document.getElementById('app-container');
@@ -87,11 +88,25 @@ function renderDashboard(usuario) {
         </p>
       </div>
 
-      <button class="btn btn-outline" id="btn-dashboard-logout">
-        Cerrar sesión
-      </button>
+      <div class="dashboard-actions">
+        ${
+          !esAdminORh
+            ? '<button class="btn btn-primary" id="btn-nueva-peticion">Nueva petición</button>'
+            : ''
+        }
+        <button class="btn btn-outline" id="btn-dashboard-logout">
+          Cerrar sesión
+        </button>
+      </div>
     </div>
   `;
+
+  const btnNuevaPeticion = appContainer.querySelector('#btn-nueva-peticion');
+  if (btnNuevaPeticion) {
+    btnNuevaPeticion.addEventListener('click', () => {
+      navegarANuevaPeticion(usuario);
+    });
+  }
 
   const btnLogout = appContainer.querySelector('#btn-dashboard-logout');
   if (btnLogout) {
@@ -100,6 +115,43 @@ function renderDashboard(usuario) {
         navegarALogin();
       });
     });
+  }
+}
+
+/**
+ * Muestra el formulario de creación de una nueva petición.
+ */
+function navegarANuevaPeticion(usuario) {
+  renderHeader();
+  initNuevaPeticionView(appContainer, {
+    onCancel: () => renderDashboard(usuario),
+    onSuccess: () => renderMisPeticionesPlaceholder(usuario),
+  });
+}
+
+/**
+ * Vista temporal de "Mis peticiones" tras crear una petición.
+ * El ticket 15 reemplazará este placeholder por la lista y el detalle reales.
+ */
+function renderMisPeticionesPlaceholder(usuario) {
+  renderHeader();
+
+  appContainer.innerHTML = `
+    <div class="dashboard-view" id="mis-peticiones-placeholder">
+      <h2 style="margin-bottom: 8px;">Mis peticiones</h2>
+      <div class="alert alert-success">
+        Tu petición se creó correctamente y quedó en estado Pendiente.
+      </div>
+      <p style="color: var(--text-muted); margin-bottom: 24px;">
+        Tu solicitud quedó registrada. Aquí podrás consultar su estado.
+      </p>
+      <button class="btn btn-primary" id="btn-volver-inicio">Volver al inicio</button>
+    </div>
+  `;
+
+  const btnVolver = appContainer.querySelector('#btn-volver-inicio');
+  if (btnVolver) {
+    btnVolver.addEventListener('click', () => renderDashboard(usuario));
   }
 }
 
