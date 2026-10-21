@@ -1,4 +1,4 @@
-import { obtenerDetallePeticion } from '../data/api.js';
+import { obtenerDetallePeticion, confirmarRecepcion } from '../data/api.js';
 import { escapar, formatearFecha, etiquetaEstado, describirLinea } from './formato.js';
 
 function htmlPeticion(peticion) {
@@ -83,7 +83,7 @@ function htmlPeticion(peticion) {
       peticion.estado === 'entregada' && !confirmada
         ? `<div class="detalle-acciones">
             <button type="button" class="btn btn-primary" id="btn-confirmar-recepcion">
-              Confirmar recepción
+              Confirmar que recibí mis prendas
             </button>
           </div>`
         : ''
@@ -91,7 +91,7 @@ function htmlPeticion(peticion) {
   `;
 }
 
-export function initDetallePeticionView(container, { peticionId, onVolver } = {}) {
+export function initDetallePeticionView(container, { peticionId, onVolver, onExito } = {}) {
   container.innerHTML = `
     <section class="peticion-view detalle-peticion-view" aria-labelledby="detalle-title">
       <button type="button" class="btn-volver" id="btn-volver-detalle">
@@ -115,9 +115,9 @@ export function initDetallePeticionView(container, { peticionId, onVolver } = {}
     const contenido = container.querySelector('#detalle-contenido');
     const alerta = container.querySelector('#detalle-alerta');
 
-    async function cargar() {
+    async function cargar(mantenerAlerta = false) {
       contenido.innerHTML = '<p class="cargando">Cargando detalle...</p>';
-      alerta.innerHTML = '';
+      if (!mantenerAlerta) alerta.innerHTML = '';
 
       const { data, error } = await obtenerDetallePeticion(peticionId);
 
@@ -134,15 +134,30 @@ export function initDetallePeticionView(container, { peticionId, onVolver } = {}
       contenido.innerHTML = htmlPeticion(data);
     }
 
+    async function procesarConfirmacion(boton) {
+      boton.disabled = true;
+      boton.textContent = 'Confirmando...';
+
+      const { error } = await confirmarRecepcion(peticionId);
+
+      if (error) {
+        alerta.innerHTML = `<div class="alert alert-danger">${escapar(error.message)}</div>`;
+        await cargar(true);
+        return;
+      }
+
+      if (typeof onExito === 'function') onExito();
+    }
+
     contenido.addEventListener('click', async (event) => {
       if (event.target.closest('#btn-reintentar-detalle')) {
         await cargar();
         return;
       }
 
-      if (event.target.closest('#btn-confirmar-recepcion')) {
-        alerta.innerHTML =
-          '<div class="alert alert-warning">La confirmación de recepción estará disponible próximamente.</div>';
+      const botonConfirmar = event.target.closest('#btn-confirmar-recepcion');
+      if (botonConfirmar) {
+        await procesarConfirmacion(botonConfirmar);
       }
     });
 

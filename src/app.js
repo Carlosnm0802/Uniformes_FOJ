@@ -6,6 +6,7 @@ import { initAuthView, cerrarSesion } from './ui/authView.js';
 import { initNuevaPeticionView } from './ui/nuevaPeticionView.js';
 import { initMisPeticionesView } from './ui/misPeticionesView.js';
 import { initDetallePeticionView } from './ui/detallePeticionView.js';
+import { initGraciasView } from './ui/graciasView.js';
 import { verificarSesion, obtenerUsuario } from './data/session.js';
 
 const appContainer = document.getElementById('app-container');
@@ -148,19 +149,30 @@ function navegarAMisPeticiones(usuario) {
   initMisPeticionesView(appContainer, {
     onVolver: () => renderDashboard(usuario),
     onNuevaPeticion: () => navegarANuevaPeticion(usuario),
-    onAbrirDetalle: (peticionId) => renderDetallePeticion(peticionId),
+    onAbrirDetalle: (peticionId) => renderDetallePeticion(peticionId, usuario),
   });
 }
 
 /**
- * Detalle de una petición del colaborador, con el botón de
- * confirmación de recepción como marcador (acción real en el Ticket 16).
+ * Detalle de una petición del colaborador, con la confirmación de
+ * recepción real conectada a la función PostgreSQL (Ticket 16).
  */
-function renderDetallePeticion(peticionId) {
+function renderDetallePeticion(peticionId, usuario) {
   renderHeader();
   initDetallePeticionView(appContainer, {
     peticionId,
     onVolver: () => navegarAMisPeticiones(obtenerUsuario()),
+    onExito: () => navegarAGracias(usuario),
+  });
+}
+
+/**
+ * Pantalla "¡Gracias!" tras confirmar la recepción (Ticket 16).
+ */
+function navegarAGracias(usuario) {
+  renderHeader();
+  initGraciasView(appContainer, {
+    onVolver: () => navegarAMisPeticiones(usuario),
   });
 }
 

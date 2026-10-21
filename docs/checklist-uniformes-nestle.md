@@ -54,8 +54,8 @@
 | 12 | Pruebas mínimas: máquina de estados y stock `[recorte 3]` | [x] |
 | 13 | UI colaborador: acceso y cerrar sesión | [x] |
 | 14 | UI colaborador: nueva petición | [x] |
-| 15 | UI colaborador: mis peticiones y detalle | [ ] |
-| 16 | UI colaborador: confirmar recepción y "¡Gracias!" | [ ] |
+| 15 | UI colaborador: mis peticiones y detalle | [x] |
+| 16 | UI colaborador: confirmar recepción y "¡Gracias!" | [x] |
 | 17 | UI admin: lista de peticiones, alertas, filtros `[recorte 4]` | [ ] |
 | 18 | UI admin: detalle de petición | [ ] |
 | 19 | UI admin: entrega (devolución + observaciones) | [ ] |
@@ -350,15 +350,17 @@ Lista de peticiones del colaborador y pantalla de detalle.
 
 ---
 
-### Ticket 16 — UI colaborador: confirmar recepción y "¡Gracias!"
+### Ticket 16 — UI colaborador: confirmar recepción y "¡Gracias!" ✔ (21-oct-2026)
 
 **Descripción**  
 Flujo de confirmación y pantalla de éxito.
 
 **Criterios de aceptación**
-- [ ] Botón "Confirmar que recibí mis prendas" en el detalle (condición del ticket 15).
-- [ ] Éxito → redirige a pantalla "¡Gracias!" con botón para volver a Mis peticiones.
-- [ ] Si ya confirmada → botón no aparece.
+- [x] Botón "Confirmar que recibí mis prendas" en el detalle (condición del ticket 15).
+- [x] Éxito → redirige a pantalla "¡Gracias!" con botón para volver a Mis peticiones.
+- [x] Si ya confirmada → botón no aparece.
+
+**Decisión (21-oct-2026):** si la BD responde "Recepción ya confirmada" (carrera desde otro dispositivo), la vista muestra el mensaje normalizado y reconsulta el detalle, por lo que el botón desaparece.
 
 **Dependencias:** Tickets 11, 13 y 15.
 
