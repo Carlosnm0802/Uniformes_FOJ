@@ -56,7 +56,7 @@
 | 14 | UI colaborador: nueva petición | [x] |
 | 15 | UI colaborador: mis peticiones y detalle | [x] |
 | 16 | UI colaborador: confirmar recepción y "¡Gracias!" | [x] |
-| 17 | UI admin: lista de peticiones, alertas, filtros `[recorte 4]` | [ ] |
+| 17 | UI admin: lista de peticiones, alertas, filtros `[recorte 4]` | [x] |
 | 18 | UI admin: detalle de petición | [ ] |
 | 19 | UI admin: entrega (devolución + observaciones) | [ ] |
 | 20 | UI admin: inventario y registrar entrada | [ ] |
@@ -366,16 +366,18 @@ Flujo de confirmación y pantalla de éxito.
 
 ---
 
-### Ticket 17 — UI admin: lista de peticiones `[recorte 4]`
+### Ticket 17 — UI admin: lista de peticiones `[recorte 4]` ✔ (21-oct-2026)
 
 **Descripción**  
 Vista principal del administrador/RH con lista, filtros, búsqueda y alertas.
 
 **Criterios de aceptación**
-- [ ] Lista: nombre, SAP, estado, fecha, resumen de prendas, marca de alerta si `sin_devolucion = true`.
-- [ ] Filtros por estado y por rango de fechas.
-- [ ] Búsqueda por nombre o SAP.
-- [ ] Clic en fila → abre detalle (ticket 18).
+- [x] Lista: nombre, SAP, estado, fecha, resumen de prendas, marca de alerta si `sin_devolucion = true`.
+- [x] Filtros por estado y por rango de fechas.
+- [x] Búsqueda por nombre o SAP.
+- [x] Clic en fila → abre detalle (ticket 18). El callback está conectado; mientras tanto muestra un placeholder visible que el Ticket 18 reemplaza.
+
+**Decisión (21-oct-2026):** los filtros y la búsqueda operan del lado del cliente sobre un solo fetch (patrón del ticket 15); a escala de la planta no se consulta la BD por cada tecla. Si la lista creciera, se mueve a `api.js` (parámetros PostgREST) sin tocar la vista.
 
 **Dependencias:** Tickets 7 y 13.
 

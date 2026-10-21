@@ -740,3 +740,47 @@ body {
 .gracias-volver {
   min-width: 220px;
 }
+
+/* =============================================
+   Ticket 17: lista de peticiones (Admin/RH)
+   ============================================= */
+
+.filtros-bar {
+  margin-bottom: 16px;
+}
+
+.filtros-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.input-busqueda,
+.input-fecha {
+  min-height: 44px;
+}
+
+.peticion-card--admin .peticion-nombre {
+  font-weight: 700;
+}
+
+.peticion-sap {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+@media (min-width: 640px) {
+  .filtros-inputs {
+    flex-direction: row;
+  }
+
+  .input-busqueda {
+    flex: 2;
+  }
+
+  .input-fecha {
+    flex: 1;
+  }
+}

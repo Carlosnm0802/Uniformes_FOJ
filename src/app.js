@@ -7,6 +7,7 @@ import { initNuevaPeticionView } from './ui/nuevaPeticionView.js';
 import { initMisPeticionesView } from './ui/misPeticionesView.js';
 import { initDetallePeticionView } from './ui/detallePeticionView.js';
 import { initGraciasView } from './ui/graciasView.js';
+import { initListaAdminView } from './ui/listaAdminView.js';
 import { verificarSesion, obtenerUsuario } from './data/session.js';
 
 const appContainer = document.getElementById('app-container');
@@ -61,7 +62,7 @@ function renderHeader() {
 
 /**
  * Renderiza la vista inicial o dashboard según el rol del usuario autenticado.
- * Módulo del colaborador conectado (Tickets 14 y 15); gestión Admin/RH conectará con los Tickets 17/18.
+ * Módulos conectados: colaborador (Tickets 14 a 16) y lista admin (Ticket 17); el detalle de gestión conectará con el Ticket 18.
  */
 function renderDashboard(usuario) {
   renderHeader();
@@ -93,10 +94,10 @@ function renderDashboard(usuario) {
 
       <div class="dashboard-actions">
         ${
-          !esAdminORh
-            ? `<button class="btn btn-primary" id="btn-nueva-peticion">Nueva petición</button>
+          esAdminORh
+            ? '<button class="btn btn-primary" id="btn-lista-peticiones">Lista de peticiones</button>'
+            : `<button class="btn btn-primary" id="btn-nueva-peticion">Nueva petición</button>
                <button class="btn btn-outline" id="btn-mis-peticiones">Mis peticiones</button>`
-            : ''
         }
         <button class="btn btn-outline" id="btn-dashboard-logout">
           Cerrar sesión
@@ -116,6 +117,13 @@ function renderDashboard(usuario) {
   if (btnMisPeticiones) {
     btnMisPeticiones.addEventListener('click', () => {
       navegarAMisPeticiones(usuario);
+    });
+  }
+
+  const btnListaPeticiones = appContainer.querySelector('#btn-lista-peticiones');
+  if (btnListaPeticiones) {
+    btnListaPeticiones.addEventListener('click', () => {
+      navegarAListaAdmin(usuario);
     });
   }
 
@@ -174,6 +182,41 @@ function navegarAGracias(usuario) {
   initGraciasView(appContainer, {
     onVolver: () => navegarAMisPeticiones(usuario),
   });
+}
+
+/**
+ * Lista de peticiones para Administrador y RH, con filtros
+ * por estado, rango de fechas y búsqueda (Ticket 17).
+ */
+function navegarAListaAdmin(usuario) {
+  renderHeader();
+  initListaAdminView(appContainer, {
+    onVolver: () => renderDashboard(usuario),
+    onAbrirDetalle: (peticionId) => renderDetalleAdminPlaceholder(peticionId),
+  });
+}
+
+/**
+ * Acción temporal al abrir el detalle de una petición como Admin/RH.
+ * El Ticket 18 la reemplazará por el detalle con controles de gestión.
+ */
+function renderDetalleAdminPlaceholder(peticionId) {
+  renderHeader();
+
+  appContainer.innerHTML = `
+    <div class="dashboard-view" id="detalle-admin-placeholder">
+      <h2 style="margin-bottom: 8px;">Detalle de la petición</h2>
+      <div class="alert alert-warning">
+        El detalle de peticiones para administración llega con el siguiente ticket.
+      </div>
+      <button class="btn btn-primary" id="btn-volver-lista-admin-temp">Volver a la lista</button>
+    </div>
+  `;
+
+  const btnVolver = appContainer.querySelector('#btn-volver-lista-admin-temp');
+  if (btnVolver) {
+    btnVolver.addEventListener('click', () => navegarAListaAdmin(obtenerUsuario()));
+  }
 }
 
 /**
