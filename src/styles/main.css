@@ -1001,3 +1001,33 @@ dialog.dialogo::backdrop {
     gap: 12px;
   }
 }
+
+/* =============================================
+   Ticket 21: importación de colaboradores
+   ============================================= */
+
+.texto-ayuda {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 6px 0 12px;
+}
+
+.resumen-importar {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.92rem;
+}
+
+.resumen-importar strong {
+  color: var(--primary);
+}
+
+.tabla-inventario .fila-restantes {
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+}

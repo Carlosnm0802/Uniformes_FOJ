@@ -10,6 +10,7 @@ import { initGraciasView } from './ui/graciasView.js';
 import { initListaAdminView } from './ui/listaAdminView.js';
 import { initDetalleAdminView } from './ui/detalleAdminView.js';
 import { initInventarioView } from './ui/inventarioView.js';
+import { initColaboradoresView } from './ui/colaboradoresView.js';
 import { verificarSesion, obtenerUsuario } from './data/session.js';
 
 const appContainer = document.getElementById('app-container');
@@ -98,7 +99,8 @@ function renderDashboard(usuario) {
         ${
           esAdminORh
             ? `<button class="btn btn-primary" id="btn-lista-peticiones">Lista de peticiones</button>
-               <button class="btn btn-outline" id="btn-inventario">Inventario</button>`
+               <button class="btn btn-outline" id="btn-inventario">Inventario</button>
+               <button class="btn btn-outline" id="btn-colaboradores">Colaboradores</button>`
             : `<button class="btn btn-primary" id="btn-nueva-peticion">Nueva petición</button>
                <button class="btn btn-outline" id="btn-mis-peticiones">Mis peticiones</button>`
         }
@@ -134,6 +136,13 @@ function renderDashboard(usuario) {
   if (btnInventario) {
     btnInventario.addEventListener('click', () => {
       navegarAInventario(usuario);
+    });
+  }
+
+  const btnColaboradores = appContainer.querySelector('#btn-colaboradores');
+  if (btnColaboradores) {
+    btnColaboradores.addEventListener('click', () => {
+      navegarAColaboradores(usuario);
     });
   }
 
@@ -226,6 +235,17 @@ function renderDetalleAdmin(peticionId) {
 function navegarAInventario(usuario) {
   renderHeader();
   initInventarioView(appContainer, {
+    onVolver: () => renderDashboard(usuario),
+  });
+}
+
+/**
+ * Importación de colaboradores desde Excel para Administrador y RH
+ * (Ticket 21), con la función PostgreSQL transaccional importar_colaboradores.
+ */
+function navegarAColaboradores(usuario) {
+  renderHeader();
+  initColaboradoresView(appContainer, {
     onVolver: () => renderDashboard(usuario),
   });
 }

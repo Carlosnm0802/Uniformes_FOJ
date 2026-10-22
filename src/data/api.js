@@ -543,3 +543,37 @@ export async function obtenerBitacora(filtros = {}) {
     return { data: null, error: formatearError(err) };
   }
 }
+
+// ==========================================
+// 6. IMPORTACIÓN DE COLABORADORES
+// ==========================================
+
+/**
+ * Importa un lote de colaboradores (Tickets 21) mediante la función PostgreSQL
+ * 'importar_colaboradores', que valida el lote, omite SAP inválidos, duplicados
+ * internos o ya existentes, crea los usuarios con PIN pendiente y registra una
+ * acción de bitácora por lote, todo en una sola transacción.
+ * @param {Array<{sap: string, nombre: string}>} filas - Lote leído del archivo.
+ * @returns {Promise<{ data: any|null, error: Error|null }>}
+ */
+export async function importarColaboradores(filas) {
+  try {
+    const usuario = obtenerUsuario();
+    if (!usuario?.id) {
+      return { data: null, error: new Error('No hay sesión activa de usuario.') };
+    }
+
+    const { data, error } = await supabase.rpc('importar_colaboradores', {
+      p_admin_id: usuario.id,
+      p_colaboradores: filas,
+    });
+
+    if (error) {
+      return { data: null, error: formatearError(error) };
+    }
+
+    return { data, error: null };
+  } catch (err) {
+    return { data: null, error: formatearError(err) };
+  }
+}

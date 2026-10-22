@@ -60,7 +60,7 @@
 | 18 | UI admin: detalle de petición | [x] |
 | 19 | UI admin: entrega (devolución + observaciones) | [x] |
 | 20 | UI admin: inventario y registrar entrada | [x] |
-| 21 | Importación de colaboradores desde Excel `[recorte 5]` | [ ] |
+| 21 | Importación de colaboradores desde Excel `[recorte 5]` | [x] |
 | 22 | Pantalla de bitácora con filtros `[recorte 1]` | [ ] |
 | 23 | PWA: manifiesto, service worker, aviso sin conexión `[recorte 2]` | [ ] |
 | 24 | Prueba de punta a punta con persona de RH (lunes 19) | [ ] |
@@ -443,17 +443,21 @@ Pantalla de inventario con tabla de existencias y formulario de entrada de stock
 
 ---
 
-### Ticket 21 — Importación de colaboradores desde Excel `[recorte 5]`
+### Ticket 21 — Importación de colaboradores desde Excel `[recorte 5]` ✔ (21-oct-2026)
 
 **Descripción**  
 Pantalla para cargar un Excel con SAP y nombres de colaboradores y habilitarlos para su primer acceso.
 
 **Criterios de aceptación**
-- [ ] Input de archivo `.xlsx` o `.csv` con vista previa antes de confirmar.
-- [ ] Inserta usuarios con `rol = colaborador`, `pin_pendiente = true`, `pin_hash = null`.
-- [ ] SAP duplicados → omitidos; resumen de insertados y omitidos.
+- [x] Input de archivo `.xlsx` o `.csv` con vista previa antes de confirmar.
+- [x] Inserta usuarios con `rol = colaborador`, `pin_pendiente = true`, `pin_hash = null`.
+- [x] SAP duplicados → omitidos; resumen de insertados y omitidos.
 
-**[POR DEFINIR]:** Columnas del Excel más allá de SAP y nombre, qué pasa con bajas (pendiente 3 del brief). **Ticket parcialmente bloqueado.**
+**Decisiones (21-oct-2026):**
+- Del Excel real de planta (`Libro9.xlsx`, 348 filas con SAP únicos) solo se importan las columnas A (SAP) y B (nombre); Alta, puesto, sexo, fecha de nacimiento, correo y superior se descartan en el cliente (pendiente 1 del brief: datos mínimos hasta confirmar el alojamiento).
+- El parser es JS puro sin dependencias (`leerColaboradores.js`): `.csv` con detección de delimitador y comillas; `.xlsx` leyendo el ZIP con `DecompressionStream('deflate-raw')` + `DOMParser` (Chrome 103+/Safari 16.4+).
+- La BD recibe el lote por una función transaccional `importar_colaboradores` (migración `20261022093000`, patrón de los tickets 8-20): omite SAP inválidos, duplicados internos o ya existentes (captura `unique_violation`), inserta con `creado_por` y registra **una acción de bitácora por lote**.
+- Bajas de colaboradores: **fuera del alcance** (pendiente 3 del brief) `[POR DEFINIR]`.
 
 **Dependencias:** Tickets 1, 6 y 7.
 
