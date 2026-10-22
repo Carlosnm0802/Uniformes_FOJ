@@ -11,6 +11,7 @@ import { initListaAdminView } from './ui/listaAdminView.js';
 import { initDetalleAdminView } from './ui/detalleAdminView.js';
 import { initInventarioView } from './ui/inventarioView.js';
 import { initColaboradoresView } from './ui/colaboradoresView.js';
+import { initBitacoraView } from './ui/bitacoraView.js';
 import { verificarSesion, obtenerUsuario } from './data/session.js';
 
 const appContainer = document.getElementById('app-container');
@@ -100,7 +101,8 @@ function renderDashboard(usuario) {
           esAdminORh
             ? `<button class="btn btn-primary" id="btn-lista-peticiones">Lista de peticiones</button>
                <button class="btn btn-outline" id="btn-inventario">Inventario</button>
-               <button class="btn btn-outline" id="btn-colaboradores">Colaboradores</button>`
+               <button class="btn btn-outline" id="btn-colaboradores">Colaboradores</button>
+               <button class="btn btn-outline" id="btn-bitacora">Bitácora</button>`
             : `<button class="btn btn-primary" id="btn-nueva-peticion">Nueva petición</button>
                <button class="btn btn-outline" id="btn-mis-peticiones">Mis peticiones</button>`
         }
@@ -143,6 +145,13 @@ function renderDashboard(usuario) {
   if (btnColaboradores) {
     btnColaboradores.addEventListener('click', () => {
       navegarAColaboradores(usuario);
+    });
+  }
+
+  const btnBitacora = appContainer.querySelector('#btn-bitacora');
+  if (btnBitacora) {
+    btnBitacora.addEventListener('click', () => {
+      navegarABitacora(usuario);
     });
   }
 
@@ -246,6 +255,16 @@ function navegarAInventario(usuario) {
 function navegarAColaboradores(usuario) {
   renderHeader();
   initColaboradoresView(appContainer, {
+    onVolver: () => renderDashboard(usuario),
+  });
+}
+
+/**
+ * Bitácora de acciones para Administrador y RH (Ticket 22).
+ */
+function navegarABitacora(usuario) {
+  renderHeader();
+  initBitacoraView(appContainer, {
     onVolver: () => renderDashboard(usuario),
   });
 }

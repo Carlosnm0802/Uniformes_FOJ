@@ -61,7 +61,7 @@
 | 19 | UI admin: entrega (devolución + observaciones) | [x] |
 | 20 | UI admin: inventario y registrar entrada | [x] |
 | 21 | Importación de colaboradores desde Excel `[recorte 5]` | [x] |
-| 22 | Pantalla de bitácora con filtros `[recorte 1]` | [ ] |
+| 22 | Pantalla de bitácora con filtros `[recorte 1]` | [x] |
 | 23 | PWA: manifiesto, service worker, aviso sin conexión `[recorte 2]` | [ ] |
 | 24 | Prueba de punta a punta con persona de RH (lunes 19) | [ ] |
 
@@ -465,16 +465,21 @@ Pantalla para cargar un Excel con SAP y nombres de colaboradores y habilitarlos 
 
 ---
 
-### Ticket 22 — Pantalla de bitácora `[recorte 1]`
+### Ticket 22 — Pantalla de bitácora `[recorte 1]` ✔ (21-oct-2026)
 
 **Descripción**  
 Vista de bitácora para admin/RH: todas las acciones de `acciones_bitacora` con filtros y búsqueda.
 
 **Criterios de aceptación**
-- [ ] Lista: fecha, tipo de acción, usuario, rol, entidad afectada.
-- [ ] Filtros: por tipo de acción, por usuario, por rango de fechas.
-- [ ] Búsqueda por nombre o SAP.
-- [ ] Paginación o scroll infinito.
+- [x] Lista: fecha, tipo de acción, usuario, rol, entidad afectada.
+- [x] Filtros: por tipo de acción, por usuario, por rango de fechas.
+- [x] Búsqueda por nombre o SAP.
+- [x] Paginación o scroll infinito. (Botón "Más resultados", página de 50 server-side; el scroll infinito se descartó por costo/bug-prone en un recorte.)
+
+**Decisiones (21-oct-2026):**
+- La búsqueda de PostgREST no filtra de forma fiable por un recurso embebido dentro de `or=()` (el filtro corrompe el embed o falla el parser): se resuelve en dos pasos — se consultan los IDs de los usuarios que coinciden y luego `usuario_id.in.(...)`.
+- Rediseño no: la tabla reutiliza el vocabulario visual del inventario (`tabla-inventario`); el detalle JSON va resumido en una línea por fila.
+- La lectura usa la política RLS `acciones_bitacora_admin_lectura` existente (ticket 7); sin migraciones ni funciones nuevas.
 
 > Aunque no haya pantalla, la bitácora **siempre se guarda** (está en los tickets 4–11).
 

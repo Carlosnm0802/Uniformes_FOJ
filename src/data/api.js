@@ -6,6 +6,8 @@
 import { supabase } from './client.js';
 import { guardarSesion, obtenerUsuario, borrarSesion } from './session.js';
 
+const BITACORA_POR_PAGINA = 50;
+
 /**
  * Normaliza y traduce errores técnicos de PostgreSQL, Supabase o red
  * a mensajes claros y comprensibles en español para la interfaz de usuario.
@@ -531,6 +533,37 @@ export async function obtenerBitacora(filtros = {}) {
   if (filtros.entidadId) {
     query = query.eq('entidad_id', filtros.entidadId);
   }
+  if (filtros.desde) {
+    query = query.gte('registrado_en', new Date(`${filtros.desde}T00:00:00`).toISOString());
+  }
+  if (filtros.hasta) {
+    query = query.lte('registrado_en', new Date(`${filtros.hasta}T23:59:59.999`).toISOString());
+  }
+
+  // Búsqueda por nombre o SAP: PostgREST no filtra de forma fiable por un
+  // recurso embebido dentro de or=(), así que se resuelve en dos pasos.
+  if (filtros.busqueda) {
+    const { data: coincidencias, error: errorBusqueda } = await supabase
+      .from('usuarios')
+      .select('id')
+      .or(`nombre.ilike.%${filtros.busqueda}%,sap.ilike.%${filtros.busqueda}%`);
+
+    if (errorBusqueda) {
+      return { data: null, error: formatearError(errorBusqueda) };
+    }
+
+    if (!coincidencias?.length) {
+      return { data: [], error: null };
+    }
+
+    query = query.in('usuario_id', coincidencias.map((usuario) => usuario.id));
+  }
+
+  const limite = filtros.limite ?? BITACORA_POR_PAGINA;
+  const pagina = filtros.pagina ?? 0;
+  if (limite > 0) {
+    query = query.range(pagina * limite, pagina * limite + limite - 1);
+  }
 
     const { data, error } = await query;
 
@@ -547,6 +580,28 @@ export async function obtenerBitacora(filtros = {}) {
 // ==========================================
 // 6. IMPORTACIÓN DE COLABORADORES
 // ==========================================
+
+/**
+ * Obtiene la lista de todos los usuarios (de cualquier rol) para los filtros
+ * de la bitácora; lectura cubierta por la política RLS 'usuarios_lectura'.
+ * @returns {Promise<{ data: Array|null, error: Error|null }>}
+ */
+export async function obtenerUsuarios() {
+  try {
+    const { data, error } = await supabase
+      .from('usuarios')
+      .select('id, sap, nombre, rol')
+      .order('nombre', { ascending: true });
+
+    if (error) {
+      return { data: null, error: formatearError(error) };
+    }
+
+    return { data, error: null };
+  } catch (err) {
+    return { data: null, error: formatearError(err) };
+  }
+}
 
 /**
  * Obtiene el censo completo de colaboradores para Administrador y RH

@@ -1063,3 +1063,42 @@ dialog.dialogo::backdrop {
   color: var(--text-muted);
   margin: 4px 0 10px;
 }
+
+/* =============================================
+   Ticket 22: bitácora de acciones
+   ============================================= */
+
+.bitacora-filtros {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media (min-width: 640px) {
+  .bitacora-filtros {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 2fr;
+    gap: 12px;
+  }
+}
+
+.bitacora-fecha,
+.bitacora-detalle,
+.bitacora-sap {
+  font-size: 0.82rem;
+}
+
+.bitacora-sap,
+.bitacora-rol {
+  color: var(--text-muted);
+}
+
+.bitacora-detalle {
+  max-width: 280px;
+  overflow-wrap: anywhere;
+}
+
+.bitacora-paginacion {
+  text-align: center;
+  margin-top: 12px;
+}
