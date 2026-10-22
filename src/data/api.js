@@ -549,6 +549,29 @@ export async function obtenerBitacora(filtros = {}) {
 // ==========================================
 
 /**
+ * Obtiene el censo completo de colaboradores para Administrador y RH
+ * (lectura cubierta por la política RLS 'usuarios_lectura').
+ * @returns {Promise<{ data: Array|null, error: Error|null }>}
+ */
+export async function obtenerColaboradores() {
+  try {
+    const { data, error } = await supabase
+      .from('usuarios')
+      .select('id, sap, nombre, pin_pendiente, bloqueado')
+      .eq('rol', 'colaborador')
+      .order('nombre', { ascending: true });
+
+    if (error) {
+      return { data: null, error: formatearError(error) };
+    }
+
+    return { data, error: null };
+  } catch (err) {
+    return { data: null, error: formatearError(err) };
+  }
+}
+
+/**
  * Importa un lote de colaboradores (Tickets 21) mediante la función PostgreSQL
  * 'importar_colaboradores', que valida el lote, omite SAP inválidos, duplicados
  * internos o ya existentes, crea los usuarios con PIN pendiente y registra una

@@ -135,11 +135,13 @@ function saltarCabeceraLocal(archivo, entrada) {
   return entrada.datosInicio + 30 + tamNombre + tamExtra;
 }
 
+// El slice sobre el ArrayBuffer necesita pasar por Blob para poder
+// descomprimir con DecompressionStream (ArrayBuffer no tiene .stream()).
 async function descomprimirEntrada(archivo, entrada) {
-  const datos = archivo.slice(entrada.datosInicio, entrada.datosInicio + entrada.tamComprimido);
+  const datos = new Blob([archivo.slice(entrada.datosInicio, entrada.datosInicio + entrada.tamComprimido)]);
 
   if (entrada.metodo === 0) {
-    return datos;
+    return datos.arrayBuffer();
   }
 
   if (entrada.metodo !== 8) {

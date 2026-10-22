@@ -457,6 +457,8 @@ Pantalla para cargar un Excel con SAP y nombres de colaboradores y habilitarlos 
 - Del Excel real de planta (`Libro9.xlsx`, 348 filas con SAP únicos) solo se importan las columnas A (SAP) y B (nombre); Alta, puesto, sexo, fecha de nacimiento, correo y superior se descartan en el cliente (pendiente 1 del brief: datos mínimos hasta confirmar el alojamiento).
 - El parser es JS puro sin dependencias (`leerColaboradores.js`): `.csv` con detección de delimitador y comillas; `.xlsx` leyendo el ZIP con `DecompressionStream('deflate-raw')` + `DOMParser` (Chrome 103+/Safari 16.4+).
 - La BD recibe el lote por una función transaccional `importar_colaboradores` (migración `20261022093000`, patrón de los tickets 8-20): omite SAP inválidos, duplicados internos o ya existentes (captura `unique_violation`), inserta con `creado_por` y registra **una acción de bitácora por lote**.
+- El mismo parser falló en el navegador con `datos.stream is not a function`: `.stream()` es de Blob, no de ArrayBuffer; el slice del archivo ahora pasa por Blob (corroborado en Node con el Excel real, incluidas entradas sin compresión y con deflate).
+- A petición de Carlos se añadió la lista del censo en la misma pantalla: `obtenerColaboradores()` (SELECT con RLS existente, sin migración nueva), tabla con SAP, nombre, estado del PIN y bloqueo, buscador client-side y refresco tras cada importación exitosa.
 - Bajas de colaboradores: **fuera del alcance** (pendiente 3 del brief) `[POR DEFINIR]`.
 
 **Dependencias:** Tickets 1, 6 y 7.

@@ -1031,3 +1031,35 @@ dialog.dialogo::backdrop {
   color: var(--text-muted);
   font-style: italic;
 }
+
+/* =============================================
+   Ticket 21: lista de colaboradores importados
+   ============================================= */
+
+.badge-pin-pendiente {
+  background: #fff8e1;
+  color: #b78103;
+  border-color: #ffe082;
+}
+
+.badge-pin-registrada {
+  background: #e8f5e9;
+  color: #1b5e20;
+  border-color: #a5d6a7;
+}
+
+.badge-pin-bloqueada {
+  background: #fde8e8;
+  color: #9b1c1c;
+  border-color: #f8b4b4;
+}
+
+.lista-colaboradores-buscador {
+  margin-bottom: 8px;
+}
+
+.lista-colaboradores-conteo {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin: 4px 0 10px;
+}

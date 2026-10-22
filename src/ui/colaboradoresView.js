@@ -1,4 +1,4 @@
-import { importarColaboradores } from '../data/api.js';
+import { importarColaboradores, obtenerColaboradores } from '../data/api.js';
 import { leerColaboradores } from '../data/leerColaboradores.js';
 import { escapar } from './formato.js';
 
@@ -113,6 +113,38 @@ function htmlVistaPrevia({ nombreArchivo, resultados, unicas, duplicados }) {
   `;
 }
 
+function htmlFilasLista(colaboradores, filtro) {
+  const filtroLimpio = filtro.trim().toLowerCase();
+  return colaboradores
+    .filter(
+      (colaborador) =>
+        !filtroLimpio ||
+        colaborador.sap.includes(filtroLimpio) ||
+        colaborador.nombre.toLowerCase().includes(filtroLimpio)
+    )
+    .map(
+      (colaborador) => `
+      <tr>
+        <td>${escapar(colaborador.sap)}</td>
+        <td>${escapar(colaborador.nombre)}</td>
+        <td>
+          <span class="badge-estado badge-pin-${colaborador.pin_pendiente ? 'pendiente' : 'registrada'}">
+            ${colaborador.pin_pendiente ? 'PIN pendiente' : 'PIN registrado'}
+          </span>
+        </td>
+        <td>
+          ${
+            colaborador.bloqueado
+              ? '<span class="badge-estado badge-pin-bloqueada">Bloqueado</span>'
+              : '—'
+          }
+        </td>
+      </tr>
+    `
+    )
+    .join('');
+}
+
 export function initColaboradoresView(container, { onVolver } = {}) {
   container.innerHTML = `
     <section class="peticion-view colaboradores-view" aria-labelledby="colaboradores-title">
@@ -127,6 +159,20 @@ export function initColaboradoresView(container, { onVolver } = {}) {
 
       <div id="importar-alerta" aria-live="polite"></div>
       <div id="colaboradores-contenido"></div>
+
+      <section class="detalle-seccion lista-colaboradores" aria-label="Colaboradores habilitados">
+        <h2 class="detalle-titulo">Colaboradores habilitados</h2>
+        <input
+          type="search"
+          class="form-input lista-colaboradores-buscador"
+          id="buscar-colaboradores"
+          placeholder="Buscar por SAP o nombre..."
+        />
+        <p class="lista-colaboradores-conteo" id="lista-colaboradores-conteo"></p>
+        <div id="lista-colaboradores-contenido">
+          <p class="cargando">Cargando colaboradores...</p>
+        </div>
+      </section>
     </section>
   `;
 
@@ -240,7 +286,70 @@ export function initColaboradoresView(container, { onVolver } = {}) {
     container.querySelector('#btn-importar-otro').addEventListener('click', () => {
       initColaboradoresView(container, { onVolver });
     });
+
+    await pintarLista();
   }
 
   contenido.querySelector('#form-importar').addEventListener('submit', vistaPrevia);
+
+  const cajaLista = container.querySelector('#lista-colaboradores-contenido');
+  const conteoLista = container.querySelector('#lista-colaboradores-conteo');
+  const busqueda = container.querySelector('#buscar-colaboradores');
+  let colaboradores = [];
+
+  function pintarTablaLista() {
+    if (!colaboradores.length) {
+      cajaLista.innerHTML = '<p class="lista-vacia">Aún no hay colaboradores en el censo.</p>';
+      conteoLista.textContent = '';
+      return;
+    }
+
+    const filtro = busqueda.value;
+    const filtroLimpio = filtro.trim();
+    const visibles = colaboradores.filter(
+      (c) =>
+        !filtroLimpio ||
+        c.sap.indexOf(filtroLimpio) !== -1 ||
+        c.nombre.toLowerCase().indexOf(filtroLimpio.toLowerCase()) !== -1
+    );
+
+    conteoLista.textContent = `Mostrando ${visibles.length} de ${colaboradores.length} colaboradores`;
+    cajaLista.innerHTML = `
+      <div class="tabla-inventario-cinta">
+        <table class="tabla-inventario">
+          <thead>
+            <tr>
+              <th>SAP</th>
+              <th>Nombre</th>
+              <th>Estado del acceso</th>
+              <th>Bloqueo</th>
+            </tr>
+          </thead>
+          <tbody>${htmlFilasLista(colaboradores, filtro)}</tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  async function pintarLista() {
+    cajaLista.innerHTML = '<p class="cargando">Cargando colaboradores...</p>';
+
+    const { data, error } = await obtenerColaboradores();
+    if (error) {
+      cajaLista.innerHTML = `
+        <div class="alert alert-danger">${escapar(error.message)}</div>
+        <button type="button" class="btn btn-outline btn-compacto" id="btn-reintentar-lista">
+          Reintentar
+        </button>
+      `;
+      conteoLista.textContent = '';
+      cajaLista.querySelector('#btn-reintentar-lista').addEventListener('click', pintarLista);
+      return;
+    }
+    colaboradores = data ?? [];
+    pintarTablaLista();
+  }
+
+  busqueda.addEventListener('input', pintarTablaLista);
+  pintarLista();
 }
