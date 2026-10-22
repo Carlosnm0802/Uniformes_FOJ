@@ -62,7 +62,7 @@
 | 20 | UI admin: inventario y registrar entrada | [x] |
 | 21 | Importación de colaboradores desde Excel `[recorte 5]` | [x] |
 | 22 | Pantalla de bitácora con filtros `[recorte 1]` | [x] |
-| 23 | PWA: manifiesto, service worker, aviso sin conexión `[recorte 2]` | [ ] |
+| 23 | PWA: manifiesto, service worker, aviso sin conexión `[recorte 2]` | [x] |
 | 24 | Prueba de punta a punta con persona de RH (lunes 19) | [ ] |
 
 ### Grafo de dependencias
@@ -493,10 +493,15 @@ Vista de bitácora para admin/RH: todas las acciones de `acciones_bitacora` con 
 Convertir la app en PWA instalable: manifiesto, service worker y aviso sin conexión.
 
 **Criterios de aceptación**
-- [ ] `manifest.json` con nombre, íconos (192×192 y 512×512), colores y `display: standalone`.
-- [ ] Service worker que cachea assets estáticos (shell de la app).
-- [ ] Sin conexión → banner visible + operaciones bloqueadas (no es modo offline).
-- [ ] Instalable en Android y desktop Chrome.
+- [x] `manifest.json` con nombre, íconos (192×192 y 512×512), colores y `display: standalone`.
+- [x] Service worker que cachea assets estáticos (shell de la app).
+- [x] Sin conexión → banner visible + operaciones bloqueadas (no es modo offline).
+- [x] Instalable en Android y desktop Chrome.
+
+**Decisiones (21-oct-2026):**
+- Íconos generados por script Node sin dependencias (PNG a mano con zlib builtin): square azul de marca con camiseta blanca por polígono dibujado dentro del círculo seguro maskable; propósito `maskable any`.
+- El service worker (raíz, scope completo) solo cachea el shell same-origin con stale-while-revalidate; **nunca** toca la API de Supabase ni dominios externos.
+- El bloqueo de operaciones sin conexión vive en el `customFetch` de `client.js` (punto único): rechaza de inmediato con mensaje amigo y cada pantalla lo muestra en su casilla; el banner solo avisa (`online/offline`).
 
 **Dependencias:** Todos los tickets de UI completados.
 

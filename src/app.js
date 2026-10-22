@@ -12,6 +12,7 @@ import { initDetalleAdminView } from './ui/detalleAdminView.js';
 import { initInventarioView } from './ui/inventarioView.js';
 import { initColaboradoresView } from './ui/colaboradoresView.js';
 import { initBitacoraView } from './ui/bitacoraView.js';
+import { initAvisoConexion } from './ui/conexion.js';
 import { verificarSesion, obtenerUsuario } from './data/session.js';
 
 const appContainer = document.getElementById('app-container');
@@ -284,6 +285,8 @@ function navegarALogin() {
  * Inicializador de la aplicación web.
  */
 function initApp() {
+  initAvisoConexion();
+  registrarServiceWorker();
   renderHeader();
 
   if (verificarSesion()) {
@@ -295,6 +298,20 @@ function initApp() {
   }
 
   navegarALogin();
+}
+
+/**
+ * Registra el service worker de la PWA (Ticket 23). En contextos que no son
+ * seguros (como file://) el navegador lo ignora; no pasa nada.
+ */
+function registrarServiceWorker() {
+  if (typeof navigator === 'undefined' || !('serviceWorker' in navigator)) return;
+
+  try {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  } catch {
+    // Navegadores sin service workers: la app funciona normal.
+  }
 }
 
 // Iniciar aplicación al cargar el DOM

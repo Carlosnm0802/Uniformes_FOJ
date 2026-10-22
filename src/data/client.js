@@ -10,8 +10,17 @@ import { obtenerToken } from './session.js';
 /**
  * Función fetch personalizada que intercepta cada llamada de Supabase
  * para adjuntar el token JWT de la sesión activa en el header Authorization.
+ * Ticket 23: si el navegador no tiene conexión, rechaza de inmediato con un
+ * mensaje amistoso en lugar de esperar un timeout de red; cada pantalla ya
+ * muestra ese error en su casilla de alerta.
  */
 const customFetch = (url, options = {}) => {
+  if (!navigator.onLine) {
+    return Promise.reject(
+      new Error('Sin conexión a internet. Las operaciones requieren estar en línea.')
+    );
+  }
+
   const token = obtenerToken();
   const headers = new Headers(options.headers || {});
 
