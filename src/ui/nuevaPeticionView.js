@@ -1,4 +1,5 @@
 import { crearPeticion } from '../data/api.js';
+import { TIPOS, COLORES, TALLAS_ROPA, TALLAS_BOTAS, ETIQUETAS_COLOR } from './catalogo.js';
 
 const MOTIVOS = [
   { valor: 'suciedad', etiqueta: 'Suciedad' },
@@ -6,26 +7,6 @@ const MOTIVOS = [
   { valor: 'talla', etiqueta: 'Talla' },
   { valor: 'otro', etiqueta: 'Otro' },
 ];
-
-const TIPOS = [
-  { valor: 'escafandra', etiqueta: 'Escafandra' },
-  { valor: 'pantalon', etiqueta: 'Pantalón' },
-  { valor: 'playera', etiqueta: 'Playera' },
-  { valor: 'botas', etiqueta: 'Botas' },
-];
-
-const COLORES = ['rojo', 'verde', 'rosa', 'azul', 'morado', 'gris'];
-const TALLAS_ROPA = ['S', 'M', 'L', 'XL', 'XXL', 'XXXL', '4XL'];
-const TALLAS_BOTAS = ['22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
-
-const ETIQUETAS_COLOR = {
-  rojo: 'Rojo',
-  verde: 'Verde',
-  rosa: 'Rosa',
-  azul: 'Azul',
-  morado: 'Morado',
-  gris: 'Gris',
-};
 
 function opciones(items, seleccionado) {
   return items

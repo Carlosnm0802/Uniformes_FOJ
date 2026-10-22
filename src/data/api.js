@@ -457,7 +457,9 @@ export async function obtenerInventario() {
 
 /**
  * Registra una entrada manual de stock al almacén por parte de Administrador o RH.
- * Incrementa la existencia y crea el registro correspondiente en movimientos_stock.
+ * Invoca la función PostgreSQL 'registrar_entrada' (Ticket 20), que incrementa la
+ * existencia, registra el movimiento con autor y rol, y anota la acción en la
+ * bitácora, todo en una sola transacción.
  * @param {object} datos - { prendaTipo, prendaColor, prendaTalla, cantidad }
  * @returns {Promise<{ data: any|null, error: Error|null }>}
  */
@@ -473,57 +475,19 @@ export async function registrarEntrada({ prendaTipo, prendaColor, prendaTalla, c
       return { data: null, error: new Error('La cantidad a registrar debe ser un número entero mayor a 0.') };
     }
 
-    // 1. Obtener la fila de existencia correspondiente
-    let queryExistencia = supabase
-      .from('existencias')
-      .select('id, cantidad')
-      .eq('prenda_tipo', prendaTipo);
+    const { data, error } = await supabase.rpc('registrar_entrada', {
+      p_admin_id: usuario.id,
+      p_prenda_tipo: prendaTipo,
+      p_cantidad: cantNumerica,
+      p_prenda_color: prendaColor || null,
+      p_prenda_talla: prendaTalla || null,
+    });
 
-    if (prendaColor) {
-      queryExistencia = queryExistencia.eq('prenda_color', prendaColor);
-    } else {
-      queryExistencia = queryExistencia.is('prenda_color', null);
+    if (error) {
+      return { data: null, error: formatearError(error) };
     }
 
-    if (prendaTalla) {
-      queryExistencia = queryExistencia.eq('prenda_talla', prendaTalla);
-    } else {
-      queryExistencia = queryExistencia.is('prenda_talla', null);
-    }
-
-    const { data: existencia, error: errExistencia } = await queryExistencia.single();
-    if (errExistencia || !existencia) {
-      return { data: null, error: formatearError(errExistencia || 'No se encontró la combinación de prenda especificada.') };
-    }
-
-    const nuevaCantidad = existencia.cantidad + cantNumerica;
-
-    // 2. Actualizar existencias
-    const { error: errUpdate } = await supabase
-      .from('existencias')
-      .update({ cantidad: nuevaCantidad })
-      .eq('id', existencia.id);
-
-    if (errUpdate) {
-      return { data: null, error: formatearError(errUpdate) };
-    }
-
-    // 3. Registrar movimiento en la bitácora de stock
-    const { error: errMovimiento } = await supabase
-      .from('movimientos_stock')
-      .insert({
-        existencia_id: existencia.id,
-        tipo_movimiento: 'entrada',
-        cantidad: cantNumerica,
-        usuario_id: usuario.id,
-        rol_usuario: usuario.rol,
-      });
-
-    if (errMovimiento) {
-      return { data: null, error: formatearError(errMovimiento) };
-    }
-
-    return { data: { existencia_id: existencia.id, nuevaCantidad }, error: null };
+    return { data, error: null };
   } catch (err) {
     return { data: null, error: formatearError(err) };
   }

@@ -937,3 +937,67 @@ dialog.dialogo::backdrop {
   accent-color: var(--primary);
   cursor: pointer;
 }
+
+/* =============================================
+   Ticket 20: inventario y registrar entrada
+   ============================================= */
+
+.tabla-inventario-cinta {
+  overflow-x: auto;
+}
+
+.tabla-inventario {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  background: #ffffff;
+}
+
+.tabla-inventario th,
+.tabla-inventario td {
+  border: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.tabla-inventario thead th {
+  background: #eef2f7;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.tabla-inventario .grupo-tipo th {
+  background: var(--primary-light);
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.tabla-inventario .cantidad-cero {
+  color: #9b1c1c;
+  font-weight: 700;
+  background: #fde8e8;
+}
+
+.inventario-form {
+  margin-top: 16px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.inventario-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media (min-width: 640px) {
+  .inventario-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+}

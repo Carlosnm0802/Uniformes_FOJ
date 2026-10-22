@@ -9,6 +9,7 @@ import { initDetallePeticionView } from './ui/detallePeticionView.js';
 import { initGraciasView } from './ui/graciasView.js';
 import { initListaAdminView } from './ui/listaAdminView.js';
 import { initDetalleAdminView } from './ui/detalleAdminView.js';
+import { initInventarioView } from './ui/inventarioView.js';
 import { verificarSesion, obtenerUsuario } from './data/session.js';
 
 const appContainer = document.getElementById('app-container');
@@ -63,7 +64,7 @@ function renderHeader() {
 
 /**
  * Renderiza la vista inicial o dashboard según el rol del usuario autenticado.
- * Colaborador conectado (Tickets 14 a 16); Administrador/RH con lista, detalle de gestión y entrega (Tickets 17 a 19); inventario y bitácora conectarán con los Tickets 20-22.
+ * Colaborador conectado (Tickets 14 a 16); Administrador/RH con lista, detalle de gestión, entrega e inventario (Tickets 17 a 20); bitácora conectará con el Ticket 22.
  */
 function renderDashboard(usuario) {
   renderHeader();
@@ -96,7 +97,8 @@ function renderDashboard(usuario) {
       <div class="dashboard-actions">
         ${
           esAdminORh
-            ? '<button class="btn btn-primary" id="btn-lista-peticiones">Lista de peticiones</button>'
+            ? `<button class="btn btn-primary" id="btn-lista-peticiones">Lista de peticiones</button>
+               <button class="btn btn-outline" id="btn-inventario">Inventario</button>`
             : `<button class="btn btn-primary" id="btn-nueva-peticion">Nueva petición</button>
                <button class="btn btn-outline" id="btn-mis-peticiones">Mis peticiones</button>`
         }
@@ -125,6 +127,13 @@ function renderDashboard(usuario) {
   if (btnListaPeticiones) {
     btnListaPeticiones.addEventListener('click', () => {
       navegarAListaAdmin(usuario);
+    });
+  }
+
+  const btnInventario = appContainer.querySelector('#btn-inventario');
+  if (btnInventario) {
+    btnInventario.addEventListener('click', () => {
+      navegarAInventario(usuario);
     });
   }
 
@@ -207,6 +216,17 @@ function renderDetalleAdmin(peticionId) {
   initDetalleAdminView(appContainer, {
     peticionId,
     onVolver: () => navegarAListaAdmin(obtenerUsuario()),
+  });
+}
+
+/**
+ * Inventario y registro de entradas de stock para Administrador y RH
+ * (Ticket 20), con la función PostgreSQL transaccional registrar_entrada.
+ */
+function navegarAInventario(usuario) {
+  renderHeader();
+  initInventarioView(appContainer, {
+    onVolver: () => renderDashboard(usuario),
   });
 }
 

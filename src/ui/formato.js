@@ -59,6 +59,7 @@ const ETIQUETAS_ACCION_BITACORA = {
   cambiar_estado: 'Cambió el estado',
   marcar_entregada: 'Marcó la entrega',
   confirmar_recepcion: 'Confirmó la recepción',
+  registrar_entrada: 'Registró entrada de stock',
 };
 
 export function aValorDatetimeLocal(valor) {

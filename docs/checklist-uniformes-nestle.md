@@ -59,7 +59,7 @@
 | 17 | UI admin: lista de peticiones, alertas, filtros `[recorte 4]` | [x] |
 | 18 | UI admin: detalle de petición | [x] |
 | 19 | UI admin: entrega (devolución + observaciones) | [x] |
-| 20 | UI admin: inventario y registrar entrada | [ ] |
+| 20 | UI admin: inventario y registrar entrada | [x] |
 | 21 | Importación de colaboradores desde Excel `[recorte 5]` | [ ] |
 | 22 | Pantalla de bitácora con filtros `[recorte 1]` | [ ] |
 | 23 | PWA: manifiesto, service worker, aviso sin conexión `[recorte 2]` | [ ] |
@@ -423,16 +423,21 @@ Pantalla o modal de entrega desde el detalle cuando la petición está en `en_pr
 
 ---
 
-### Ticket 20 — UI admin: inventario y registrar entrada
+### Ticket 20 — UI admin: inventario y registrar entrada ✔ (21-oct-2026)
 
 **Descripción**  
 Pantalla de inventario con tabla de existencias y formulario de entrada de stock.
 
 **Criterios de aceptación**
-- [ ] Tabla agrupada por tipo; muestra color, talla y cantidad. Cantidades en 0 destacadas.
-- [ ] Formulario "Registrar entrada": tipo, color, talla, cantidad → llama a `registrarEntrada()`.
-- [ ] Entrada: `existencias.cantidad += cantidad`; inserta en `movimientos_stock`.
-- [ ] Tabla se actualiza tras registrar.
+- [x] Tabla agrupada por tipo; muestra color, talla y cantidad. Cantidades en 0 destacadas.
+- [x] Formulario "Registrar entrada": tipo, color, talla, cantidad → llama a `registrarEntrada()`.
+- [x] Entrada: `existencias.cantidad += cantidad`; inserta en `movimientos_stock`.
+- [x] Tabla se actualiza tras registrar.
+
+**Decisiones (21-oct-2026):**
+- El flujo de 3 pasos del cliente (`registrarEntrada`) dejaba el stock incrementado **sin movimiento ni autor**: `movimientos_stock` no tiene política INSERT en RLS, así que el UPDATE de `existencias` aplicaba y el INSERT del movimiento fallaba. Resuelto con la función BD transaccional `registrar_entrada` (migración `20261021120000`, patrón de los tickets 8-11): actualiza existencia, inserta movimiento con `usuario_id` y `rol_usuario`, y anota la acción en la bitácora. `api.js` ahora hace un solo rpc.
+- El catálogo se extrajo a `src/ui/catalogo.js` compartido por `nuevaPeticionView` e `inventarioView`.
+- Convención revelada por el seed: para escafandra `prenda_talla = 'unica'` (no null); el formulario y la tabla la manejan igual que el ticket 14.
 
 **Dependencias:** Tickets 1, 2, 7 y 13.
 
