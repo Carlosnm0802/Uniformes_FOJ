@@ -8,6 +8,9 @@ src/data/env.js
 supabase/.branches
 supabase/.temp
 
+# Datos reales de empleados ( nunca al repositorio )
+Libro9.xlsx
+
 # IDE y sistema
 .DS_Store
 Thumbs.db

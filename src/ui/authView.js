@@ -44,6 +44,13 @@ export function initAuthView(container, onLoginSuccess) {
     container.innerHTML = `
       <div class="auth-card">
         <div class="auth-header">
+          <img
+            class="auth-logo"
+            src="assets/nestle-logo-vertical.png"
+            alt="Nestlé"
+            onerror="this.nextElementSibling.hidden = false; this.remove();"
+          />
+          <div class="auth-logo-text" aria-hidden="true" hidden>Nestlé</div>
           <h1 class="auth-title">Control de Uniformes</h1>
           <p class="auth-subtitle">Ingresa con tu número SAP y tu PIN de 4 dígitos</p>
         </div>
@@ -172,6 +179,13 @@ export function initAuthView(container, onLoginSuccess) {
     container.innerHTML = `
       <div class="auth-card">
         <div class="auth-header">
+          <img
+            class="auth-logo"
+            src="assets/nestle-logo-vertical.png"
+            alt="Nestlé"
+            onerror="this.nextElementSibling.hidden = false; this.remove();"
+          />
+          <div class="auth-logo-text" aria-hidden="true" hidden>Nestlé</div>
           <h1 class="auth-title">Configuración de PIN</h1>
           <p class="auth-subtitle">
             ${user.nombre ? `Hola <strong>${user.nombre}</strong>. ` : ''}

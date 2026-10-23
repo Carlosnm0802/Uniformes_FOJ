@@ -424,9 +424,11 @@ export function initDetalleAdminView(container, { peticionId, onVolver } = {}) {
     cajaAlerta.innerHTML = '';
     dialogoAprobar.close();
 
+    // datetime-local entrega la hora sin zona; se convierte a ISO con el offset
+    // local del navegador para que la BD (timestamptz) guarde el instante correcto.
     await ejecutarTransicion('aprobada', {
-      ventana_confirmada_inicio: inicio,
-      ventana_confirmada_fin: fin,
+      ventana_confirmada_inicio: new Date(inicio).toISOString(),
+      ventana_confirmada_fin: new Date(fin).toISOString(),
     }, 'Petición aprobada. La ventana quedó fijada.');
   }
 

@@ -5,20 +5,21 @@
 :root {
   --primary: #005a9c;
   --primary-hover: #004377;
-  --primary-light: #e8f1f8;
+  --primary-light: #eaf1f8;
   --secondary: #4a5568;
   --success: #2e7d32;
   --warning: #ed6c02;
   --danger: #d32f2f;
   --danger-bg: #fde8e8;
-  --bg-app: #f4f6f9;
+  --bg-app: #f7f5f2;
   --bg-card: #ffffff;
   --text-main: #1a202c;
-  --text-muted: #718096;
-  --border: #e2e8f0;
+  --text-muted: #7a7570;
+  --border: #e0ddd8;
   --radius: 10px;
-  --shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 8px 24px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.1), 0 16px 32px rgba(0, 0, 0, 0.08);
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 * {
@@ -57,12 +58,14 @@ body {
 
 /* Encabezado global */
 .app-header {
-  background-color: #ffffff;
-  border-bottom: 1px solid var(--border);
-  padding: 12px 20px;
+  background: linear-gradient(135deg, #005a9c 0%, #003d6b 100%);
+  color: #ffffff;
+  border-bottom: none;
+  padding: 14px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .app-brand {
@@ -70,17 +73,36 @@ body {
   align-items: center;
   gap: 10px;
   font-weight: 700;
-  color: var(--primary);
+  color: #ffffff;
   font-size: 1.15rem;
 }
 
+/* Wordmark serif: sustituir por <img class="brand-logo"> con logo oficial */
+.brand-logo-text {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: -0.02em;
+}
+
+/* Logo oficial Nestlé en el header (blanco por filtro; el PNG de respaldo es negro) */
+.brand-logo {
+  height: 32px;
+  width: auto;
+}
+
+.brand-logo.is-blanco {
+  filter: brightness(0) invert(1);
+}
+
 .brand-badge {
-  background-color: var(--primary-light);
-  color: var(--primary);
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
   font-size: 0.75rem;
   padding: 3px 8px;
   border-radius: 6px;
   font-weight: 600;
+  backdrop-filter: blur(4px);
 }
 
 .user-nav {
@@ -96,11 +118,22 @@ body {
 
 .user-name {
   font-weight: 600;
+  color: #ffffff;
 }
 
 .user-role {
-  color: var(--text-muted);
+  color: rgba(255, 255, 255, 0.75);
   text-transform: capitalize;
+}
+
+/* Botón claro para header oscuro */
+.app-header .btn-outline {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+}
+
+.app-header .btn-outline:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
 /* Contenedor principal */
@@ -113,15 +146,50 @@ body {
   padding: 20px 16px;
 }
 
+/* Transición suave al cambiar de vista */
+.app-main > * {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* Tarjeta de autenticación */
 .auth-card {
   background-color: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: 14px;
   box-shadow: var(--shadow);
   width: 100%;
   max-width: 420px;
-  padding: 32px 24px;
+  padding: 36px 28px;
+}
+
+/* Wordmark serif grande para pantalla de login */
+.auth-logo-text {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.auth-logo {
+  display: block;
+  margin: 0 auto 8px;
+  height: 72px;
+  width: auto;
+}
+
+/* Logo horizontal en la tarjeta del dashboard (fondo claro, centrado y legible) */
+.dashboard-logo {
+  display: block;
+  height: 56px;
+  width: auto;
+  margin: 0 auto 20px;
 }
 
 .auth-header {
@@ -158,17 +226,17 @@ body {
   width: 100%;
   padding: 12px 14px;
   font-size: 1rem;
-  border: 1px solid var(--border);
-  border-radius: 6px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
   background-color: #ffffff;
   color: var(--text-main);
-  transition: border-color 0.15s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .form-input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(0, 90, 156, 0.15);
+  box-shadow: 0 0 0 3px rgba(0, 90, 156, 0.12);
 }
 
 .form-input:disabled {
@@ -188,24 +256,34 @@ body {
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  gap: 8px;
   width: 100%;
   min-height: 48px;
   padding: 12px 20px;
   font-size: 1rem;
   font-weight: 600;
-  border-radius: 6px;
+  border-radius: 8px;
   border: none;
   cursor: pointer;
-  transition: background-color 0.15s ease, opacity 0.15s ease;
+  letter-spacing: 0.01em;
+  transition: all 0.2s ease;
 }
 
 .btn-primary {
-  background-color: var(--primary);
+  background: linear-gradient(135deg, #005a9c 0%, #004880 100%);
   color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 90, 156, 0.25);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background-color: var(--primary-hover);
+  background: linear-gradient(135deg, #004880 0%, #003d6b 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 90, 156, 0.35);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 90, 156, 0.25);
 }
 
 .btn-outline {
@@ -215,7 +293,7 @@ body {
 }
 
 .btn-outline:hover:not(:disabled) {
-  background-color: #f7fafc;
+  background-color: #f5f3f0;
 }
 
 .btn:disabled {
@@ -485,7 +563,9 @@ body {
 
 /* Badges de estado */
 .badge-estado {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   padding: 4px 10px;
   border-radius: 999px;
   font-size: 0.75rem;
@@ -493,6 +573,16 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.02em;
   border: 1px solid transparent;
+}
+
+.badge-estado::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
 }
 
 .badge-estado--pendiente {
@@ -569,16 +659,18 @@ body {
 
 .peticion-card {
   background: #ffffff;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border);
   border-radius: 10px;
   padding: 14px 16px;
   cursor: pointer;
-  transition: box-shadow 0.15s ease, transform 0.15s ease;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .peticion-card:hover,
 .peticion-card:focus-visible {
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }

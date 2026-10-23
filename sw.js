@@ -3,13 +3,15 @@
 // SOLO cachea el shell de la app (assets estáticos same-origin) y rechaza
 // todo lo externo: la app requiere conexión para operar, no es modo offline.
 
-const VERSION = 'uniformes-foj-v1';
+const VERSION = 'uniformes-foj-v7';
 const SHELL = [
   './',
   './index.html',
   './manifest.json',
   './assets/icon-192.png',
   './assets/icon-512.png',
+  './assets/nestle-logo-horizontal.png',
+  './assets/nestle-logo-vertical.png',
   './src/app.js',
   './src/data/api.js',
   './src/data/client.js',
@@ -35,7 +37,9 @@ const SHELL = [
 
 self.addEventListener('install', (evento) => {
   evento.waitUntil(
-    caches.open(VERSION).then((cache) => cache.addAll(SHELL)).then(() => self.skipWaiting())
+    caches.open(VERSION).then((cache) => cache.addAll(
+      SHELL.map((ruta) => new Request(ruta, { cache: 'reload' }))
+    )).then(() => self.skipWaiting())
   );
 });
 
@@ -60,15 +64,17 @@ self.addEventListener('fetch', (evento) => {
     caches.open(VERSION).then(async (cache) => {
       const cacheado = await cache.match(peticion);
 
-      // Refresco en segundo plano; la respuesta vive hasta que queda en caché.
-      const red = fetch(peticion)
+      // Network-first: con internet siempre entrega LS CÓDIGO ACTUAL (`no-store`
+      // evita que la caché HTTP del navegador devuelva archivos viejos) y
+      // renueva la caché con cada respuesta. Sin internet, usa lo cacheado.
+      const red = fetch(peticion, { cache: 'no-store' })
         .then((respuesta) => {
           if (respuesta.ok) cache.put(peticion, respuesta.clone());
           return respuesta;
         })
         .catch(() => cacheado);
 
-      return cacheado || red;
+      return red;
     })
   );
 });

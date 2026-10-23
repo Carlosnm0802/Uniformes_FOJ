@@ -30,8 +30,8 @@ describe('Control Transaccional de Stock', () => {
     const resCrear = await invocarRpc('crear_peticion', {
       p_usuario_id: COLABORADOR_ID,
       p_motivo: 'Prueba descuento de stock',
-      p_ventana_inicio: '2026-10-22T08:00:00Z',
-      p_ventana_fin: '2026-10-22T10:00:00Z',
+      p_ventana_inicio: '2026-10-22T08:00:00-06:00',
+      p_ventana_fin: '2026-10-22T10:00:00-06:00',
       p_lineas: [
         { prenda_tipo: 'playera', prenda_color: 'azul', prenda_talla: 'M' }
       ]
@@ -45,8 +45,8 @@ describe('Control Transaccional de Stock', () => {
       p_peticion_id: peticionId,
       p_nuevo_estado: 'aprobada',
       p_extra: {
-        ventana_confirmada_inicio: '2026-10-22T08:00:00Z',
-        ventana_confirmada_fin: '2026-10-22T09:00:00Z'
+        ventana_confirmada_inicio: '2026-10-22T08:00:00-06:00',
+        ventana_confirmada_fin: '2026-10-22T09:00:00-06:00'
       }
     });
 
@@ -100,8 +100,8 @@ describe('Control Transaccional de Stock', () => {
     const resCrear = await invocarRpc('crear_peticion', {
       p_usuario_id: COLABORADOR_ID,
       p_motivo: 'Intento de entrega sin stock',
-      p_ventana_inicio: '2026-10-22T08:00:00Z',
-      p_ventana_fin: '2026-10-22T10:00:00Z',
+      p_ventana_inicio: '2026-10-22T08:00:00-06:00',
+      p_ventana_fin: '2026-10-22T10:00:00-06:00',
       p_lineas: [
         { prenda_tipo: 'botas', prenda_color: null, prenda_talla: '22' }
       ]
@@ -115,8 +115,8 @@ describe('Control Transaccional de Stock', () => {
       p_peticion_id: peticionId,
       p_nuevo_estado: 'aprobada',
       p_extra: {
-        ventana_confirmada_inicio: '2026-10-22T08:00:00Z',
-        ventana_confirmada_fin: '2026-10-22T09:00:00Z'
+        ventana_confirmada_inicio: '2026-10-22T08:00:00-06:00',
+        ventana_confirmada_fin: '2026-10-22T09:00:00-06:00'
       }
     });
 

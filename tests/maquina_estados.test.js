@@ -22,8 +22,8 @@ describe('Máquina de Estados de Peticiones', () => {
     const resCrear = await invocarRpc('crear_peticion', {
       p_usuario_id: COLABORADOR_ID,
       p_motivo: 'Prueba ciclo completo máquina de estados',
-      p_ventana_inicio: '2026-10-22T08:00:00Z',
-      p_ventana_fin: '2026-10-22T10:00:00Z',
+      p_ventana_inicio: '2026-10-22T08:00:00-06:00',
+      p_ventana_fin: '2026-10-22T10:00:00-06:00',
       p_lineas: [
         { prenda_tipo: 'playera', prenda_color: 'azul', prenda_talla: 'M' }
       ]
@@ -38,8 +38,8 @@ describe('Máquina de Estados de Peticiones', () => {
     assert.equal(peticion.estado, 'pendiente');
 
     // 2. Transición pendiente → aprobada (fijando ventana confirmada)
-    const ventanaConfirmadaInicio = '2026-10-22T08:30:00Z';
-    const ventanaConfirmadaFin = '2026-10-22T09:30:00Z';
+    const ventanaConfirmadaInicio = '2026-10-22T08:30:00-06:00';
+    const ventanaConfirmadaFin = '2026-10-22T09:30:00-06:00';
 
     const resAprobar = await invocarRpc('cambiar_estado', {
       p_admin_id: adminId,
@@ -87,8 +87,8 @@ describe('Máquina de Estados de Peticiones', () => {
     const resCrear = await invocarRpc('crear_peticion', {
       p_usuario_id: COLABORADOR_ID,
       p_motivo: 'Intento de entrega directa inválida',
-      p_ventana_inicio: '2026-10-22T08:00:00Z',
-      p_ventana_fin: '2026-10-22T10:00:00Z',
+      p_ventana_inicio: '2026-10-22T08:00:00-06:00',
+      p_ventana_fin: '2026-10-22T10:00:00-06:00',
       p_lineas: [
         { prenda_tipo: 'playera', prenda_color: 'azul', prenda_talla: 'M' }
       ]
@@ -120,8 +120,8 @@ describe('Máquina de Estados de Peticiones', () => {
     const resCrear = await invocarRpc('crear_peticion', {
       p_usuario_id: COLABORADOR_ID,
       p_motivo: 'Petición a rechazar',
-      p_ventana_inicio: '2026-10-22T08:00:00Z',
-      p_ventana_fin: '2026-10-22T10:00:00Z',
+      p_ventana_inicio: '2026-10-22T08:00:00-06:00',
+      p_ventana_fin: '2026-10-22T10:00:00-06:00',
       p_lineas: [
         { prenda_tipo: 'playera', prenda_color: 'azul', prenda_talla: 'M' }
       ]

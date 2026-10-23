@@ -520,6 +520,8 @@ Sesión de prueba con persona real de RH o administrador, datos de ejemplo, con 
 
 **Dependencias:** Todos los tickets anteriores (o el subconjunto mínimo funcional).
 
+**Nota (23-oct-2026):** guion de la sesión listo en `docs/guion-prueba-ticket-24.md` (recorridos A/B/C, reglas de la sesión, tabla de bugs y triaje según el orden de recorte del brief). `Libro9.xlsx` quedó en `.gitignore` (datos reales, nunca al repositorio). Los criterios NO se marcan `[x]` hasta que la sesión con la persona real se complete.
+
 ---
 
 ## Fase 4: Agente de código, un ticket a la vez

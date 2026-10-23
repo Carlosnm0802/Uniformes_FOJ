@@ -2,8 +2,7 @@
 // Punto de entrada principal de la aplicación Uniformes FOJ.
 // Controla el enrutamiento básico, sesiones activas, header y redirección por rol.
 
-import { initAuthView, cerrarSesion } from './ui/authView.js';
-import { initNuevaPeticionView } from './ui/nuevaPeticionView.js';
+import { initAuthView, cerrarSesion } from './ui/authView.js';import { initNuevaPeticionView } from './ui/nuevaPeticionView.js';
 import { initMisPeticionesView } from './ui/misPeticionesView.js';
 import { initDetallePeticionView } from './ui/detallePeticionView.js';
 import { initGraciasView } from './ui/graciasView.js';
@@ -18,6 +17,10 @@ import { verificarSesion, obtenerUsuario } from './data/session.js';
 const appContainer = document.getElementById('app-container');
 const headerContainer = document.getElementById('header-container');
 
+// Marcador de build: en la consola se ve de un vistazo qué código corre.
+const VERSION_APP = 7;
+console.info(`Uniformes FOJ · build ${VERSION_APP}`);
+
 /**
  * Actualiza el encabezado global según el estado de la sesión.
  */
@@ -29,7 +32,14 @@ function renderHeader() {
     headerContainer.innerHTML = `
       <header class="app-header">
         <div class="app-brand">
-          <span>Nestlé Uniformes</span>
+          <img
+            class="brand-logo is-blanco"
+            src="assets/nestle-logo-horizontal.png"
+            alt="Nestlé"
+            onerror="this.nextElementSibling.hidden = false; this.remove();"
+          />
+          <span class="brand-logo-text" hidden>Nestlé</span>
+          <span>Uniformes</span>
           <span class="brand-badge">FOJ</span>
         </div>
       </header>
@@ -76,23 +86,27 @@ function renderDashboard(usuario) {
 
   appContainer.innerHTML = `
     <div class="dashboard-view" id="dashboard-view">
-      <div style="margin-bottom: 20px;">
-        <span style="font-size: 3rem;">👋</span>
-      </div>
+      <img
+        class="dashboard-logo"
+        src="assets/nestle-logo-horizontal.png"
+        alt="Nestlé"
+        onerror="this.nextElementSibling.hidden = false; this.remove();"
+      />
+      <div class="auth-logo-text" hidden>Nestlé</div>
       <h2 style="margin-bottom: 8px;">¡Bienvenido, ${usuario.nombre}!</h2>
       <p style="color: var(--text-muted); margin-bottom: 24px;">
-        Sesión iniciada correctamente como <strong>${usuario.rol}</strong> (SAP: ${usuario.sap}).
+        Sesión iniciada como <strong>${usuario.rol}</strong> · SAP ${usuario.sap}
       </p>
 
       <div style="background-color: var(--primary-light); padding: 16px; border-radius: 8px; margin-bottom: 24px; text-align: left;">
         <div style="font-weight: 600; color: var(--primary); margin-bottom: 6px;">
-          ${esAdminORh ? 'Panel de Administración y RH' : 'Portal de Solicitudes de Colaborador'}
+          ${esAdminORh ? 'Panel de Administración y RH' : 'Portal de Solicitudes'}
         </div>
         <p style="font-size: 0.9rem; color: var(--primary);">
           ${
             esAdminORh
-              ? 'Módulo de gestión de solicitudes, inventario y bitácora de planta.'
-              : 'Aquí podrás solicitar cambios de uniforme por desgaste o daño y revisar tus peticiones.'
+              ? 'Gestión de solicitudes, inventario y bitácora de planta.'
+              : 'Solicita cambios de uniforme por desgaste o daño y revisa tus peticiones.'
           }
         </p>
       </div>
@@ -100,12 +114,12 @@ function renderDashboard(usuario) {
       <div class="dashboard-actions">
         ${
           esAdminORh
-            ? `<button class="btn btn-primary" id="btn-lista-peticiones">Lista de peticiones</button>
-               <button class="btn btn-outline" id="btn-inventario">Inventario</button>
-               <button class="btn btn-outline" id="btn-colaboradores">Colaboradores</button>
-               <button class="btn btn-outline" id="btn-bitacora">Bitácora</button>`
-            : `<button class="btn btn-primary" id="btn-nueva-peticion">Nueva petición</button>
-               <button class="btn btn-outline" id="btn-mis-peticiones">Mis peticiones</button>`
+            ? `<button class="btn btn-primary" id="btn-lista-peticiones">📋  Lista de peticiones</button>
+               <button class="btn btn-outline" id="btn-inventario">📦  Inventario</button>
+               <button class="btn btn-outline" id="btn-colaboradores">👥  Colaboradores</button>
+               <button class="btn btn-outline" id="btn-bitacora">📊  Bitácora</button>`
+            : `<button class="btn btn-primary" id="btn-nueva-peticion">📝  Nueva petición</button>
+               <button class="btn btn-outline" id="btn-mis-peticiones">📋  Mis peticiones</button>`
         }
         <button class="btn btn-outline" id="btn-dashboard-logout">
           Cerrar sesión
@@ -303,12 +317,35 @@ function initApp() {
 /**
  * Registra el service worker de la PWA (Ticket 23). En contextos que no son
  * seguros (como file://) el navegador lo ignora; no pasa nada.
+ * Cuando entra un SW nuevo (skipWaiting + claim), se recarga la página para
+ * que el usuario vea la versión actualizada sin tener que refrescar a mano.
  */
 function registrarServiceWorker() {
   if (typeof navigator === 'undefined' || !('serviceWorker' in navigator)) return;
 
   try {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
+    let recargando = false;
+
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (recargando || !sessionStorage.getItem('sw-esperando-act')) return;
+      sessionStorage.removeItem('sw-esperando-act');
+      recargando = true;
+      window.location.reload();
+    });
+
+    navigator.serviceWorker.register('./sw.js')
+      .then((registro) => {
+        registro.addEventListener('updatefound', () => {
+          const nuevo = registro.installing;
+          if (!nuevo) return;
+          nuevo.addEventListener('statechange', () => {
+            if (nuevo.state === 'activating') {
+              sessionStorage.setItem('sw-esperando-act', '1');
+            }
+          });
+        });
+      })
+      .catch(() => {});
   } catch {
     // Navegadores sin service workers: la app funciona normal.
   }

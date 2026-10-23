@@ -24,9 +24,15 @@ const customFetch = (url, options = {}) => {
   const token = obtenerToken();
   const headers = new Headers(options.headers || {});
 
-  // Si hay un JWT de sesión activo, lo enviamos como Bearer token
   if (token) {
+    // Con sesión activa: JWT firmado por la Edge Function en Authorization
     headers.set('Authorization', `Bearer ${token}`);
+  } else {
+    // Sin sesión (ej. crear PIN en el primer acceso): supabase-js inyecta por
+    // defecto "Authorization: Bearer <apikey>", pero esa JWT de demo no tiene
+    // firma real y PostgREST la rechaza con "No suitable key or wrong key
+    // type". Sin Authorization, la llamada usa solo el apikey y funciona.
+    headers.delete('Authorization');
   }
 
   return fetch(url, {
